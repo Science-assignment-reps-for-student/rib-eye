@@ -1,0 +1,2 @@
+class ExcelFilesController < ApplicationController
+end
