@@ -1,0 +1,2 @@
+class ExperimentFilesController < ApplicationController
+end

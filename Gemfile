@@ -10,26 +10,25 @@ gem 'rails', '~> 6.0.2'
 gem 'mysql2', '~> 0.5.3'
 
 # Use to send mails
-gem 'mailgun-ruby'
+gem 'mailgun-ruby', '~> 1.2.0'
 
-# Use Redis adapter to run Action Cable in production
-gem 'connection_pool'
+# Use Redis adapter to run queue in production
+gem 'connection_pool', '~> 2.2.3'
 gem 'redis', '~> 4.0'
-gem 'redis-objects'
+gem 'redis-objects', '~> 1.5.0'
 gem 'sidekiq', '~> 5.0'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '~> 1.4.6', require: false
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-gem 'rack-cors'
+gem 'rack-cors', '~> 1.1.1'
 
 # Use JWT auth
-gem 'jwt'
-gem 'jwt_extended', '~> 0.1.3'
+gem 'jwt_extended', '~> 0.1.4'
 
 # Use spreadsheet gem for excel
-gem 'spreadsheet'
+gem 'spreadsheet', '~> 1.2.6'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -38,14 +37,16 @@ group :development, :test do
   gem 'rspec-rails', '~> 4.0.0'
   # Use to create test data
   gem 'factory_bot_rails', '~> 5.2.0'
-  # Use to load fake data
-  gem 'ffaker', '~> 2.14.0'
+  # Use to clean database
+  gem 'database_cleaner-active_record', '~> 1.8.0'
+  # Use to measure code coverage
+  gem 'simplecov', '~> 0.18.5'
 end
 
 group :development do
   gem 'listen', '~> 3.1.5'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
+  gem 'spring', '~> 2.1.0'
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
 

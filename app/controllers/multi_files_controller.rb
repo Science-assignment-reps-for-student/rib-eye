@@ -1,0 +1,2 @@
+class MultiFilesController < ApplicationController
+end
