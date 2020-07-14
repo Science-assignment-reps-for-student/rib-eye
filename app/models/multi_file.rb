@@ -1,0 +1,2 @@
+class MultiFile < ApplicationRecord
+end

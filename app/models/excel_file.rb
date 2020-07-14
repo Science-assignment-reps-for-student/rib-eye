@@ -1,0 +1,2 @@
+class ExcelFile < ApplicationRecord
+end

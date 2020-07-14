@@ -1,0 +1,2 @@
+class ExperimentFile < ApplicationRecord
+end

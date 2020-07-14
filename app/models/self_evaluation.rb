@@ -1,0 +1,2 @@
+class SelfEvaluation < ApplicationRecord
+end

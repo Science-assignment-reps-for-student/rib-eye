@@ -1,0 +1,2 @@
+class SingleFile < ApplicationRecord
+end
