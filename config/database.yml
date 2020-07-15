@@ -2,24 +2,22 @@ default: &default
   adapter: mysql2
   encoding: utf8mb4
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: root
   port: 3306
-  strict: false
 
 development:
   <<: *default
   password: <%= ENV['ROOT_PASSWORD'] %>
   host: '127.0.0.1'
-  database: scarfs_development
+  database: rib_eye_development
 
 test:
   <<: *default
-  password: <%= ENV['ROOT_PASSWORD'] %>
-  host: '127.0.0.1'
-  database: scarfs_test
+  password: <%= ENV['RIB_EYE_TEST_DATABASE_PASSWORD'] %>
+  host: <%= ENV['RIB_EYE_TEST_DATABASE_HOST'] %>
+  database: rib_eye_test
 
 production:
   <<: *default
-  password: <%= ENV['SCARFS_PASSWORD'] %>
-  host: <%= ENV['SCARFS_DB'] %>
+  password: <%= ENV['PRODUCTION_DATABASE_PASSWORD'] %>
+  host: <%= ENV['PRODUCTION_DATABASE'] %>
   database: scarfs_production
