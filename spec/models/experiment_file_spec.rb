@@ -1,5 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe ExperimentFile, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'relationship verification' do
+    it 'belongs to student' do
+      relationship = ExperimentFile.reflect_on_association(:student).macro
+      expect(relationship).to eql(:belongs_to)
+    end
+  end
 end
