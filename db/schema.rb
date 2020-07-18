@@ -55,6 +55,13 @@ ActiveRecord::Schema.define(version: 0) do
     t.string :path, null: false
   end
 
+  create_table 'homework_file', options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint :homework_id, null: false
+    t.index [:homework_id], name: 'index_homework_file_on_homework_id'
+    t.string :file_name, null: false
+    t.string :path, null: false
+  end
+
   create_table 'homework', options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.datetime :deadline_1, null: false
     t.datetime :deadline_2, null: false
@@ -85,7 +92,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.index [:student_id], name: 'index_mutual_evaluation_on_student_id'
     t.index [:homework_id], name: 'index_mutual_evaluation_on_homework_id'
     t.index [:target_id], name: 'index_mutual_evaluation_on_target_id'
-    t.index %i[student_id homework_id target_id], name: 'index_mutual_evaluation_on_student_id_and_homework_id_and_target_id', unique: true
+    t.index %i[student_id homework_id target_id], name: 'student_id_and_homework_id_and_target_id', unique: true
     t.integer :communication, null: false
     t.integer :cooperation, null: false
     t.datetime :created_at, null: false
@@ -103,7 +110,7 @@ ActiveRecord::Schema.define(version: 0) do
   create_table 'member', options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint :team_id, null: false
     t.bigint :student_id, null: false
-    t.index [:leader_id], name: 'index_member_on_team_id'
-    t.index [:homework_id], name: 'index_member_on_student_id'
+    t.index [:team_id], name: 'index_member_on_team_id'
+    t.index [:student_id], name: 'index_member_on_student_id'
   end
 end
