@@ -1,5 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe ExcelFile, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'relationship verification' do
+    it 'belongs to homework' do
+      relationship = ExcelFile.reflect_on_association(:homework).macro
+      expect(relationship).to eql(:belongs_to)
+    end
+  end
 end
