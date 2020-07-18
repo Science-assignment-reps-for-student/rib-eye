@@ -1,5 +1,20 @@
 require 'rails_helper'
 
 RSpec.describe Student, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'relationship verification' do
+    it 'has many single files' do
+      relationship = Student.reflect_on_association(:single_files).macro
+      expect(relationship).to eql(:has_many)
+    end
+
+    it 'has many self evaluations' do
+      relationship = Student.reflect_on_association(:self_evaluations).macro
+      expect(relationship).to eql(:has_many)
+    end
+
+    it 'has many mutual evaluations' do
+      relationship = Student.reflect_on_association(:mutual_evaluations).macro
+      expect(relationship).to eql(:has_many)
+    end
+  end
 end
