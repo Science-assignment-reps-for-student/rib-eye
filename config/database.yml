@@ -12,6 +12,7 @@ development:
 
 test:
   <<: *default
+  username: <%= ENV['RIB_EYE_TEST_DATABASE_USERNAME'] %>
   password: <%= ENV['RIB_EYE_TEST_DATABASE_PASSWORD'] %>
   host: <%= ENV['RIB_EYE_TEST_DATABASE_HOST'] %>
   database: rib_eye_test
