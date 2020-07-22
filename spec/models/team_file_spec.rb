@@ -1,14 +1,14 @@
 require 'rails_helper'
 
-RSpec.describe SingleFile, type: :model do
+RSpec.describe TeamFile, type: :model do
   describe 'relationship verification' do
     it 'belongs to homework' do
-      relationship = SingleFile.reflect_on_association(:homework).macro
+      relationship = TeamFile.reflect_on_association(:homework).macro
       expect(relationship).to eql(:belongs_to)
     end
 
-    it 'belongs to student' do
-      relationship = SingleFile.reflect_on_association(:student).macro
+    it 'belongs to team' do
+      relationship = TeamFile.reflect_on_association(:team).macro
       expect(relationship).to eql(:belongs_to)
     end
   end
