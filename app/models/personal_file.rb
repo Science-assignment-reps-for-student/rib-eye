@@ -3,11 +3,11 @@ class PersonalFile < ApplicationRecord
   belongs_to :student
 
   def stored_dir
-    super + "/single_file/#{homework_id}/#{student_id}"
+    super + "/single_file/#{assignment_id}/#{student_id}"
   end
 
   def singular_file_name(extension)
-    "[#{homework.type_korean}][#{homework.title}]"\
+    "[#{assignment.type_korean}][#{assignment.title}]"\
     "#{student.student_number}_#{student.name}" + extension
   end
 end

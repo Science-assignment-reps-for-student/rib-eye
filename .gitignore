@@ -10,8 +10,10 @@
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*
+/storage/*
 !/log/.keep
 !/tmp/.keep
+!/storage/.keep
 
 # Ignore uploaded files in development.
 .byebug_history
