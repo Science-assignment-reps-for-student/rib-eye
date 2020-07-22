@@ -1,7 +1,7 @@
 class Assignment < ApplicationRecord
   self.inheritance_column = :_type_disabled
 
-  has_many :homework_files, dependent: :delete_all
+  has_many :assignment_files, dependent: :delete_all
   has_many :personal_files, dependent: :delete_all
   has_many :team_files, dependent: :delete_all
   has_many :experiment_files, dependent: :delete_all
