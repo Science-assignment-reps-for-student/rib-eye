@@ -3,17 +3,17 @@ require 'rails_helper'
 RSpec.describe Assignment, type: :model do
   describe 'all homework relationship verification' do
     it 'has many homework files' do
-      relationship = Assignment.reflect_on_association(:homework_files).macro
+      relationship = Assignment.reflect_on_association(:assignment_files).macro
       expect(relationship).to eql(:has_many)
     end
 
     it 'has many single files' do
-      relationship = Assignment.reflect_on_association(:single_files).macro
+      relationship = Assignment.reflect_on_association(:personal_files).macro
       expect(relationship).to eql(:has_many)
     end
 
     it 'has many multi files' do
-      relationship = Assignment.reflect_on_association(:multi_files).macro
+      relationship = Assignment.reflect_on_association(:team_files).macro
       expect(relationship).to eql(:has_many)
     end
 
