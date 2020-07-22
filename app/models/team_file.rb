@@ -3,11 +3,11 @@ class TeamFile < ApplicationRecord
   belongs_to :team
 
   def stored_dir
-    super + "/multi_file/#{homework_id}/#{team_id}"
+    super + "/team_file/#{assignment_id}/#{team_id}"
   end
 
   def singular_file_name(extension)
-    "[#{homework.type_korean}][#{homework.title}]"\
+    "[#{assignment.type_korean}][#{assignment.title}]"\
     "#{team.student.class_number}반_#{team.name}" + extension
   end
 end
