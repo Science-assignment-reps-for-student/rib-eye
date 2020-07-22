@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :homework do
+  factory :assignment do
     title { '제목' }
     description { '설명' }
     type { 'SINGLE' }
