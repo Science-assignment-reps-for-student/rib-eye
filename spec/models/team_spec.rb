@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Team, type: :model do
   describe 'relationship verification' do
     it 'has many multi files' do
-      relationship = Team.reflect_on_association(:multi_files).macro
+      relationship = Team.reflect_on_association(:team_files).macro
       expect(relationship).to eql(:has_many)
     end
 
