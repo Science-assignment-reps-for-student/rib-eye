@@ -1,9 +1,9 @@
-class ExperimentFile < ApplicationRecord
+class PersonalFile < ApplicationRecord
   belongs_to :assignment
   belongs_to :student
 
   def stored_dir
-    super + "/experiment_file/#{assignment_id}/#{student_id}"
+    super + "/single_file/#{assignment_id}/#{student_id}"
   end
 
   def singular_file_name(extension)

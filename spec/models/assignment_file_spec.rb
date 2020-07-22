@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe HomeworkFile, type: :model do
+RSpec.describe AssignmentFile, type: :model do
   describe 'relationship verification' do
     it 'belongs to homework' do
-      relationship = HomeworkFile.reflect_on_association(:homework).macro
+      relationship = AssignmentFile.reflect_on_association(:assignment).macro
       expect(relationship).to eql(:belongs_to)
     end
   end

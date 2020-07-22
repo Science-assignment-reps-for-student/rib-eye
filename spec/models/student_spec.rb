@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Student, type: :model do
   describe 'relationship verification' do
     it 'has many single files' do
-      relationship = Student.reflect_on_association(:single_files).macro
+      relationship = Student.reflect_on_association(:personal_files).macro
       expect(relationship).to eql(:has_many)
     end
 
