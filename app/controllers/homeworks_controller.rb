@@ -1,2 +1,0 @@
-class HomeworksController < ApplicationController
-end

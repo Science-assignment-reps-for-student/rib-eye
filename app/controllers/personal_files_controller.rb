@@ -1,0 +1,2 @@
+class PersonalFilesController < ApplicationController
+end
