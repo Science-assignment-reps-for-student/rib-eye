@@ -13,23 +13,23 @@ ActiveRecord::Schema.define(version: 0) do
   end
 
   create_table 'single_file', options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint :user_id, null: false
+    t.bigint :student_id, null: false
     t.bigint :homework_id, null: false
-    t.index [:user_id], name: 'index_single_file_on_user_id'
+    t.index [:student_id], name: 'index_single_file_on_student_id'
     t.index [:homework_id], name: 'index_single_file_on_homework_id'
-    t.index %i[user_id homework_id], name: 'index_single_file_on_user_id_and_homework_id', unique: true
+    t.index %i[student_id homework_id], name: 'index_single_file_on_student_id_and_homework_id', unique: true
     t.string :file_name, null: false, unique: true
     t.string :path, null: false
     t.datetime :created_at, null: false
     t.boolean :is_late, null: false
   end
 
-  create_table 'multi_file', options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table 'team_file', options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint :team_id, null: false
     t.bigint :homework_id, null: false
-    t.index [:team_id], name: 'index_multi_file_on_team_id'
-    t.index [:homework_id], name: 'index_multi_file_on_homework_id'
-    t.index %i[team_id homework_id], name: 'index_multi_file_on_team_id_and_homework_id', unique: true
+    t.index [:team_id], name: 'index_team_file_on_team_id'
+    t.index [:homework_id], name: 'index_team_file_on_homework_id'
+    t.index %i[team_id homework_id], name: 'index_team_file_on_team_id_and_homework_id', unique: true
     t.string :file_name, null: false, unique: true
     t.string :path, null: false
     t.datetime :created_at, null: false
@@ -37,11 +37,11 @@ ActiveRecord::Schema.define(version: 0) do
   end
 
   create_table 'experiment_file', options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint :user_id, null: false
+    t.bigint :student_id, null: false
     t.bigint :homework_id, null: false
-    t.index [:user_id], name: 'index_experiment_file_on_user_id'
+    t.index [:student_id], name: 'index_experiment_file_on_student_id'
     t.index [:homework_id], name: 'index_experiment_file_on_homework_id'
-    t.index %i[user_id homework_id], name: 'index_experiment_file_on_user_id_and_homework_id', unique: true
+    t.index %i[student_id homework_id], name: 'index_experiment_file_on_student_id_and_homework_id', unique: true
     t.string :file_name, null: false, unique: true
     t.string :path, null: false
     t.datetime :created_at, null: false
@@ -69,7 +69,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime :deadline_4, null: false
     t.string :title, null: false
     t.text :description
-    t.integer :type, null: false
+    t.string :type, null: false
     t.datetime :created_at, null: false
   end
 
