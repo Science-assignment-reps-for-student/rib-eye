@@ -1,6 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe PersonalFile, type: :model do
+  before(:all) do
+    @assignment = create(:assignment, type: 'TEAM')
+    @student = create(:student)
+    @personal_file = create(:experiment_file,
+                            assignment_id: @assignment.id,
+                            student_id: @student.id)
+  end
+
   describe 'relationship verification' do
     it 'belongs to assignment' do
       relationship = PersonalFile.reflect_on_association(:assignment).macro
@@ -10,6 +18,16 @@ RSpec.describe PersonalFile, type: :model do
     it 'belongs to student' do
       relationship = PersonalFile.reflect_on_association(:student).macro
       expect(relationship).to eql(:belongs_to)
+    end
+  end
+
+  describe 'file process' do
+    it 'storing singular file' do
+      singular_file_test(@personal_file)
+    end
+
+    it 'storing plural files' do
+      plural_files_test(@personal_file)
     end
   end
 end

@@ -11,12 +11,12 @@ class Assignment < ApplicationRecord
   has_many :self_evaluations, dependent: :delete_all
   has_many :mutual_evaluations, dependent: :delete_all
 
-  enum type: { SINGLE: 'SINGLE', MULTI: 'MULTI', EXPERIMENT: 'EXPERIMENT' }
+  enum type: { PERSONAL: 'PERSONAL', TEAM: 'TEAM', EXPERIMENT: 'EXPERIMENT' }
 
   def type_korean
-    if type == 'SINGLE'
+    if type == 'PERSONAL'
       '개인'
-    elsif type == 'MULTI'
+    elsif type == 'TEAM'
       '팀'
     elsif type == 'EXPERIMENT'
       '실험'
