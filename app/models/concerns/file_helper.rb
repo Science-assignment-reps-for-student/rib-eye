@@ -1,16 +1,6 @@
 module FileHelper
   extend ActiveSupport::Concern
 
-  def self.create!(files, **kwargs)
-    instance = super kwargs
-
-    if files.length == 1
-      instance.store_singular_file(files[0])
-    else
-      instance.store_plural_files(*files)
-    end
-  end
-
   def destroy!
     super.destroy_file
   end
@@ -31,5 +21,17 @@ module FileHelper
 
   def destroy_file
     FileUtils.rm(path)
+  end
+
+  module FileGenerator
+    def create!(files, **kwargs)
+      instance = super kwargs
+
+      if files.length == 1
+        instance.store_singular_file(files[0])
+      else
+        instance.store_plural_files(*files)
+      end
+    end
   end
 end

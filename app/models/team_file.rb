@@ -1,5 +1,6 @@
 class TeamFile < ApplicationRecord
   include FileHelper
+  extend FileHelper::FileGenerator
 
   belongs_to :assignment
   belongs_to :team
