@@ -1,4 +1,6 @@
 class PersonalFile < ApplicationRecord
+  include FileHelper
+
   belongs_to :assignment
   belongs_to :student
 

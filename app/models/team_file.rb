@@ -1,4 +1,6 @@
 class TeamFile < ApplicationRecord
+  include FileHelper
+
   belongs_to :assignment
   belongs_to :team
 
