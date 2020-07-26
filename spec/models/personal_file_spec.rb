@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe PersonalFile, type: :model do
   before(:all) do
-    @assignment = create(:assignment, type: 'TEAM')
+    @assignment = create(:assignment, type: 'PERSONAL')
     @student = create(:student)
-    @personal_file = create(:experiment_file,
+    @personal_file = create(:personal_file,
                             assignment_id: @assignment.id,
                             student_id: @student.id)
   end
