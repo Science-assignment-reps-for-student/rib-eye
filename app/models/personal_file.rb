@@ -1,9 +1,11 @@
 class PersonalFile < ApplicationRecord
+  include FileHelper
+
   belongs_to :assignment
   belongs_to :student
 
   def stored_dir
-    super + "personal_file/#{assignment_id}/#{student_id}/"
+    File.join(super, "personal_file/#{assignment_id}/#{student_id}")
   end
 
   def singular_file_name(extension)
