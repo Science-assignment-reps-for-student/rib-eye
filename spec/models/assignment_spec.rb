@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Assignment, type: :model do
+  before(:all) do
+    @assignment = create(:assignment)
+  end
+
   describe 'all assignment relationship verification' do
     it 'has many assignment files' do
       relationship = Assignment.reflect_on_association(:assignment_files).macro
@@ -42,6 +46,18 @@ RSpec.describe Assignment, type: :model do
     it 'has many mutual evaluations' do
       relationship = Assignment.reflect_on_association(:mutual_evaluations).macro
       expect(relationship).to eql(:has_many)
+    end
+  end
+
+  describe 'file compress process' do
+    it 'file compress' do
+      directory = "#{ApplicationRecord.stored_dir}"\
+      "/#{@assignment.type.downcase}_file"\
+      "/#{@assignment.id}"
+
+      FileUtils.mkdir_p(directory)
+      @assignment.create_compressed_file
+      FileUtils.rm_rf(File.dirname(directory))
     end
   end
 end

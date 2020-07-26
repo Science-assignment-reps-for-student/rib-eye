@@ -16,5 +16,10 @@ RSpec.describe Team, type: :model do
       relationship = Team.reflect_on_association(:students).macro
       expect(relationship).to eql(:has_many)
     end
+
+    it 'belongs to student' do
+      relationship = Team.reflect_on_association(:student).macro
+      expect(relationship).to eql(:belongs_to)
+    end
   end
 end
