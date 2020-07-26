@@ -23,6 +23,6 @@ class ApplicationRecord < ActiveRecord::Base
   end
 
   def self.stored_dir
-    File.dirname(File.dirname(__dir__)) + '/storage/'
+    File.join(File.dirname(File.dirname(__dir__)), 'storage')
   end
 end

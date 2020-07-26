@@ -3,7 +3,7 @@ class TeamFile < ApplicationRecord
   belongs_to :team
 
   def stored_dir
-    super + "team_file/#{assignment_id}/#{team_id}/"
+    File.join(super, "team_file/#{assignment_id}/#{team_id}")
   end
 
   def singular_file_name(extension)
