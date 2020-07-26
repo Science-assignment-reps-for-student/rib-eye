@@ -14,4 +14,8 @@ module FileHelper
   def store_file(file, file_name = File.basename(file))
     FileUtils.mv(file, stored_dir + file_name)
   end
+
+  def destroy_file
+    FileUtils.rm(path)
+  end
 end
