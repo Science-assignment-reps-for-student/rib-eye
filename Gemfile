@@ -6,11 +6,17 @@ ruby '2.6.5'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.3.2'
 
+# Use WAS to puma
+gem 'puma', '~> 4.3.5'
+
 # Use mysql as the database for Active Record
 gem 'mysql2', '~> 0.5.3'
 
 # Use to send mails
 gem 'mailgun-ruby', '~> 1.2.0'
+
+# Use to generate zip file
+gem 'rubyzip', '~> 2.3.0'
 
 # Use Redis adapter to run queue in production
 gem 'connection_pool', '~> 2.2.3'

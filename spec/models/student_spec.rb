@@ -7,6 +7,11 @@ RSpec.describe Student, type: :model do
       expect(relationship).to eql(:has_many)
     end
 
+    it 'has many experiment files' do
+      relationship = Student.reflect_on_association(:experiment_files).macro
+      expect(relationship).to eql(:has_many)
+    end
+
     it 'has many self evaluations' do
       relationship = Student.reflect_on_association(:self_evaluations).macro
       expect(relationship).to eql(:has_many)
