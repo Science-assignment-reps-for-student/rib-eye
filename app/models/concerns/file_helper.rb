@@ -11,6 +11,10 @@ module FileHelper
     end
   end
 
+  def destroy!
+    super.destroy_file
+  end
+
   def store_plural_files(*files)
     FileUtils.mkdir_p(stored_dir)
     files.each { |file| store_file(file) }
