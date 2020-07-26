@@ -1,3 +1,5 @@
+require 'zip'
+
 class Assignment < ApplicationRecord
   self.inheritance_column = :_type_disabled
 
@@ -13,6 +15,16 @@ class Assignment < ApplicationRecord
 
   enum type: { PERSONAL: 'PERSONAL', TEAM: 'TEAM', EXPERIMENT: 'EXPERIMENT' }
 
+  def create_compressed_file
+    directory = "#{ApplicationRecord.stored_dir}/#{type.downcase}_file/#{id}"
+
+    Zip::File.open("#{directory}/'[#{type_korean}]#{title}.zip'", Zip::File::CREATE) do |zip|
+      search_directory_recursively(directory).each do |path|
+        zip.add(File.basename(path), path)
+      end
+    end
+  end
+
   def type_korean
     if type == 'PERSONAL'
       '개인'
@@ -21,5 +33,15 @@ class Assignment < ApplicationRecord
     elsif type == 'EXPERIMENT'
       '실험'
     end
+  end
+
+  def search_directory_recursively(directory)
+    Dir.glob("#{directory}/*").map do |path|
+      if File.directory?(path)
+        search_directory_recursively(path)
+      else
+        path
+      end
+    end.flatten
   end
 end
