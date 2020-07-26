@@ -12,6 +12,9 @@ gem 'mysql2', '~> 0.5.3'
 # Use to send mails
 gem 'mailgun-ruby', '~> 1.2.0'
 
+# Use to generate zip file
+gem 'rubyzip', '~> 2.3.0'
+
 # Use Redis adapter to run queue in production
 gem 'connection_pool', '~> 2.2.3'
 gem 'redis', '~> 4.0'
