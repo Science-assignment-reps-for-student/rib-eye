@@ -3,10 +3,11 @@ require 'rails_helper'
 RSpec.describe TeamFile, type: :model do
   before(:all) do
     @assignment = create(:assignment, type: 'TEAM')
-    @student = create(:student)
-    @team_file = create(:experiment_file,
+    @leader = create(:student)
+    @team = create(:team, assignment_id: @assignment.id, leader_id: @leader.id)
+    @team_file = create(:team_file,
                         assignment_id: @assignment.id,
-                        student_id: @student.id)
+                        team_id: @team.id)
   end
 
   describe 'relationship verification' do
