@@ -1,5 +1,9 @@
 class AssignmentsController < ApplicationController
-  before_action :jwt_required
+  before_action :jwt_required, except: :show
+
+  def show
+
+  end
 
   def create
 

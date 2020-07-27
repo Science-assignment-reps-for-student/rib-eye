@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     delete '/experiment-file/:assignment_id', to: 'experiment_files#destroy'
 
     # assignment controller
+    get '/assignment/:assignment_id', to: 'assignments#show'
     post '/assignment', to: 'assignments#create'
     patch '/assignment/:assignment_id', to: 'assignments#update_information'
     put '/assignment/:assignment_id', to: 'assignments#update_file'
