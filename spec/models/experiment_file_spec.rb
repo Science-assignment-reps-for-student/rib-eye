@@ -22,12 +22,8 @@ RSpec.describe ExperimentFile, type: :model do
   end
 
   describe 'file process' do
-    it 'storing singular file' do
-      singular_file_test(@experiment_file)
-    end
-
-    it 'storing plural files' do
-      plural_files_test(@experiment_file)
+    it 'storing file' do
+      file_storing_test(@experiment_file)
     end
   end
 end

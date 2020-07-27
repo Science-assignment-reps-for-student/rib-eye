@@ -23,12 +23,8 @@ RSpec.describe TeamFile, type: :model do
   end
 
   describe 'file process' do
-    it 'storing singular file' do
-      singular_file_test(@team_file)
-    end
-
-    it 'storing plural files' do
-      plural_files_test(@team_file)
+    it 'storing file' do
+      file_storing_test(@team_file)
     end
   end
 end
