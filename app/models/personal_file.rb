@@ -9,8 +9,8 @@ class PersonalFile < ApplicationRecord
     File.join(super, "personal_file/#{assignment_id}/#{student_id}")
   end
 
-  def singular_file_name(extension)
+  def singular_file_name
     "'[#{assignment.type_korean}][#{assignment.title}]"\
-    "#{student.student_number}_#{student.name}" + extension + "'"
+    "#{student.student_number}_#{student.name}" + File.extname(file_name) + "'"
   end
 end
