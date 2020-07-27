@@ -51,14 +51,10 @@ RSpec.describe Assignment, type: :model do
 
   describe 'file compress process' do
     it 'file compress' do
-      directory = "#{ApplicationRecord.stored_dir}"\
-      "/#{@assignment.type.downcase}_file"\
-      "/#{@assignment.id}"
-
-      FileUtils.mkdir_p("#{directory}/1")
-      FileUtils.touch("#{directory}/1/test.txt")
-      @assignment.create_compressed_file
-      FileUtils.rm_rf(File.dirname(directory))
+      FileUtils.mkdir_p(@assignment.stored_dir)
+      FileUtils.touch(@assignment.compressed_file_path)
+      @assignment.generate_compressed_file
+      FileUtils.rm_rf(File.dirname(@assignment.stored_dir))
     end
   end
 end
