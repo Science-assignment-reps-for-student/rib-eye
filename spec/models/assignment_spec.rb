@@ -55,7 +55,8 @@ RSpec.describe Assignment, type: :model do
       "/#{@assignment.type.downcase}_file"\
       "/#{@assignment.id}"
 
-      FileUtils.mkdir_p(directory)
+      FileUtils.mkdir_p("#{directory}/1")
+      FileUtils.touch("#{directory}/1/test.txt")
       @assignment.create_compressed_file
       FileUtils.rm_rf(File.dirname(directory))
     end
