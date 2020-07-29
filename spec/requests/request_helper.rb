@@ -11,9 +11,20 @@ def request(method, url, params = false, headers = false)
 
   if headers == true
     parameters[:headers] = { Authorization: "Bearer #{@token}" }
-  elsif params
+  elsif headers
     parameters[:headers] = { Authorization: "Bearer #{headers}" }
   end
 
   send(method, url, parameters)
+end
+
+def set_database(assignment_type)
+  @student = create(:student)
+  @admin = create(:admin)
+  @token = JWT_BASE.create_access_token(sub: @admin.email)
+
+  @assignment = create(:assignment, type: assignment_type)
+  @file = create("#{assignment_type.downcase}_file",
+                 student_id: @student.id,
+                 assignment_id: @assignment.id)
 end
