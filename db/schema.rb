@@ -21,8 +21,8 @@ ActiveRecord::Schema.define(version: 0) do
     t.index :student_id, name: 'index_personal_file_on_student_id'
     t.index :assignment_id, name: 'index_personal_file_on_assignment_id'
     t.index %i[student_id assignment_id], name: 'index_personal_file_on_student_id_and_assignment_id', unique: true
-    t.string :file_name, null: false
-    t.string :path, null: false
+    t.string :file_name
+    t.string :path
     t.datetime :created_at, null: false
     t.boolean :is_late, null: false
   end
@@ -33,8 +33,8 @@ ActiveRecord::Schema.define(version: 0) do
     t.index :team_id, name: 'index_team_file_on_team_id'
     t.index :assignment_id, name: 'index_team_file_on_assignment_id'
     t.index %i[team_id assignment_id], name: 'index_team_file_on_team_id_and_assignment_id', unique: true
-    t.string :file_name, null: false
-    t.string :path, null: false
+    t.string :file_name
+    t.string :path
     t.datetime :created_at, null: false
     t.boolean :is_late, null: false
   end
@@ -45,8 +45,8 @@ ActiveRecord::Schema.define(version: 0) do
     t.index :student_id, name: 'index_experiment_file_on_student_id'
     t.index :assignment_id, name: 'index_experiment_file_on_assignment_id'
     t.index %i[student_id assignment_id], name: 'index_experiment_file_on_student_id_and_assignment_id', unique: true
-    t.string :file_name, null: false
-    t.string :path, null: false
+    t.string :file_name
+    t.string :path
     t.datetime :created_at, null: false
     t.boolean :is_late, null: false
   end
@@ -54,15 +54,15 @@ ActiveRecord::Schema.define(version: 0) do
   create_table 'excel_file', options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint :assignment_id, null: false
     t.index :assignment_id, name: 'index_excel_file_on_assignment_id'
-    t.string :file_name, null: false
-    t.string :path, null: false
+    t.string :file_name
+    t.string :path
   end
 
   create_table 'assignment_file', options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint :assignment_id, null: false
     t.index :assignment_id, name: 'index_assignment_file_on_assignment_id'
-    t.string :file_name, null: false
-    t.string :path, null: false
+    t.string :file_name
+    t.string :path
   end
 
   create_table 'assignment', options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
