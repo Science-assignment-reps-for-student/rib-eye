@@ -9,13 +9,19 @@ module FileHelper
 
     self.file_name = name
     self.path = path
-    if assignment.send("deadline_#{student.class_number}") > Time.zone.now
-      self.is_late = true
-    else
-      self.is_late = false
-    end
+    late?
 
     save
+  end
+
+  def late?
+    deadline = if assignment.type == 'TEAM'
+                 assignment.send("deadline_#{team.student.class_number}")
+               else
+                 assignment.send("deadline_#{student.class_number}")
+               end
+
+    self.is_late = deadline > Time.zone.now
   end
 
   def destroy_file
