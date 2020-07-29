@@ -15,14 +15,25 @@ class Assignment < ApplicationRecord
 
   enum type: { PERSONAL: 'PERSONAL', TEAM: 'TEAM', EXPERIMENT: 'EXPERIMENT' }
 
-  def create_compressed_file
-    directory = "#{ApplicationRecord.stored_dir}/#{type.downcase}_file/#{id}"
-
-    Zip::File.open("#{directory}/'[#{type_korean}]#{title}.zip'", Zip::File::CREATE) do |zip|
-      search_directory_recursively(directory).each do |path|
+  def generate_compressed_file
+    FileUtils.rm_rf(compressed_file_path)
+    Zip::File.open(compressed_file_path, Zip::File::CREATE) do |zip|
+      search_directory_recursively(stored_dir).each do |path|
         zip.add(File.basename(path), path)
       end
     end
+  end
+
+  def compressed_file_path
+    File.join(stored_dir, compressed_file_name)
+  end
+
+  def stored_dir
+    File.join(super, "#{type.downcase}_file/#{id}")
+  end
+
+  def compressed_file_name
+    "'[#{type_korean}]#{title}.zip'"
   end
 
   def type_korean
