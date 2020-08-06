@@ -24,7 +24,7 @@ class ApplicationController < ActionController::API
   end
 
   def jwt_required
-    return render status: :forbidden unless token
+    return render status: :unauthorized unless token
 
     @payload = @@jwt_base.jwt_required(token)
     return render status: @payload[:status] if @payload[:status]
@@ -33,7 +33,7 @@ class ApplicationController < ActionController::API
   end
 
   def refresh_token_required
-    return render status: :forbidden unless token
+    return render status: :unauthorized unless token
 
     @payload = @@jwt_base.refresh_token_required(token)
     return render status: @payload[:status] if @payload[:status]
