@@ -28,3 +28,8 @@ def set_database(assignment_type)
                  student_id: @student.id,
                  assignment_id: @assignment.id)
 end
+
+def clean_dummy_file(assignment_type)
+  FileUtils.rm_rf File.join(ApplicationRecord.stored_dir,
+                            "#{assignment_type.downcase}_file")
+end
