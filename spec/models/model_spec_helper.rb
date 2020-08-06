@@ -5,7 +5,7 @@ def file_storing_test(instance)
   file = File.open(ApplicationRecord.stored_dir + '/.keep')
 
   instance.store_file(file)
-  expect(Dir.exist?(instance.stored_dir)).to equal(true)
+  expect(File.exist?(instance.stored_dir)).to equal(true)
 
   instance.destroy_file
   FileUtils.rm_rf(File.join(ApplicationRecord.stored_dir,
