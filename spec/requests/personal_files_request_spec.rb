@@ -8,6 +8,10 @@ RSpec.describe 'PersonalFiles', type: :request do
     @url_personal_files = @url_personal_file + 's'
   end
 
+  after(:all) do
+    clean_dummy_file('PERSONAL')
+  end
+
   describe 'GET#show' do
 
   end
