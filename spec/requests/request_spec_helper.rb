@@ -27,9 +27,17 @@ def set_database(assignment_type)
 
   @assignment = create(:assignment, type: assignment_type)
 
-  @file = create("#{assignment_type.downcase}_file",
-                 student_id: @student.id,
-                 assignment_id: @assignment.id)
+  @file = if assignment_type == 'TEAM'
+            @team = create(:team, assignment_id: @assignment.id, leader_id: @student.id)
+            create(:member, team_id: @team.id, student_id: @student.id)
+            create("#{assignment_type.downcase}_file",
+                   team_id: @team.id,
+                   assignment_id: @assignment.id)
+          else
+            create("#{assignment_type.downcase}_file",
+                   student_id: @student.id,
+                   assignment_id: @assignment.id)
+          end
 end
 
 def clean_dummy_file(assignment_type)
