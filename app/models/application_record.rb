@@ -2,7 +2,7 @@ class ApplicationRecord < ActiveRecord::Base
   self.abstract_class = true
   self.pluralize_table_names = false
 
-  EXTNAME_WHITELIST = %i[.hwp .jpg .png .jpeg .pptx .word .pdf .zip].freeze
+  EXTNAME_WHITELIST = %w[.hwp .jpg .png .jpeg .pptx .word .pdf .zip].freeze
 
   def stored_dir
     ApplicationRecord.stored_dir
