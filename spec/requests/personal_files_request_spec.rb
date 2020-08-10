@@ -14,12 +14,27 @@ RSpec.describe 'PersonalFiles', type: :request do
 
   describe 'GET#show' do
     it 'OK' do
-      request('get', @url_personal_file, { student_id: @student.id,
-                                           assignment_id: @assignment.id }, true)
+      request('get', "#{@url_personal_file}/1", false, true)
       expect(response.status).to equal(204)
     end
 
-    it 'Not Found student id' do
+    it 'Not Found' do
+      request('get', "#{@url_personal_file}/2", false, true)
+      expect(response.status).to equal(404)
+    end
+  end
+
+  describe 'GET#index' do
+    it 'OK' do
+      request('get',
+              @url_personal_file,
+              { student_id: @student.id, assignment_id: @assignment.id },
+              true)
+      expect(JSON.parse(response.body)).to eql([1])
+      expect(response.status).to equal(200)
+    end
+
+    it 'Not Found Student' do
       request('get',
               @url_personal_file,
               { student_id: @student.id + 1, assignment_id: @assignment.id },
@@ -27,7 +42,7 @@ RSpec.describe 'PersonalFiles', type: :request do
       expect(response.status).to equal(404)
     end
 
-    it 'Not Found assignment id' do
+    it 'Not Found Assignment' do
       request('get',
               @url_personal_file,
               { student_id: @student.id, assignment_id: @assignment.id + 1 },
