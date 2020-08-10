@@ -3,16 +3,10 @@ require 'jwt_base'
 class ApplicationController < ActionController::API
   @@jwt_base = JWTBase.new(ENV['SECRET_KEY_BASE'], 1.days, 2.weeks)
 
-  def file_input_stream
-    params.require(:file)
-
-    @files = params[:file].map do |file|
-      unless ApplicationRecord::EXTNAME_WHITELIST.include?(File.extname(file).downcase)
-        return render status: :unsupported_media_type
-      end
-
-      File.open(file)
-    end
+  def current_team
+    current_student
+    @team = Team.find_by_leader_id(@student.id)
+    render status: :forbidden unless @team
   end
 
   def current_student
