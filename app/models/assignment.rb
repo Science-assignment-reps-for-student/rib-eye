@@ -16,7 +16,7 @@ class Assignment < ApplicationRecord
   enum type: { PERSONAL: 'PERSONAL', TEAM: 'TEAM', EXPERIMENT: 'EXPERIMENT' }
 
   def generate_compressed_file
-    FileUtils.rm_rf(compressed_file_path)
+    FileUtils.rm_f(compressed_file_path)
     Zip::File.open(compressed_file_path, Zip::File::CREATE) do |zip|
       search_directory_recursively(stored_dir).each do |path|
         zip.add(File.basename(path), path)

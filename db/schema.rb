@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string :file_name
     t.string :path
     t.datetime :created_at, null: false
-    t.boolean :is_late, null: false
+    t.boolean :is_late
   end
 
   create_table 'team_file', options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string :file_name
     t.string :path
     t.datetime :created_at, null: false
-    t.boolean :is_late, null: false
+    t.boolean :is_late
   end
 
   create_table 'experiment_file', options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string :file_name
     t.string :path
     t.datetime :created_at, null: false
-    t.boolean :is_late, null: false
+    t.boolean :is_late
   end
 
   create_table 'excel_file', options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
