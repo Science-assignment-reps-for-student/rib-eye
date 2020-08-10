@@ -16,11 +16,18 @@ class ApplicationController < ActionController::API
   end
 
   def current_student
-    Student.find_by_email(@payload['sub'])
+    @student = Student.find_by_email(@payload['sub'])
+    return render status: :forbidden unless @student
   end
 
   def current_admin
-    Admin.find_by_email(@payload['sub'])
+    @admin = Admin.find_by_email(@payload['sub'])
+    return render status: :forbidden unless @admin
+  end
+
+  def current_assignment
+    @assignment = Assignment.find_by_id(params[:assignment_id])
+    return render status: :not_found unless @assignment
   end
 
   def jwt_required
@@ -47,8 +54,6 @@ class ApplicationController < ActionController::API
     authorization = request.authorization.split(' ')
     if authorization[0] == 'Bearer'
       authorization[1]
-    else
-      false
     end
   end
 end
