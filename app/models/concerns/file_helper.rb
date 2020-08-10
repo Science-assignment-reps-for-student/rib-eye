@@ -33,11 +33,11 @@ module FileHelper
   end
 
   module FileGenerator
-    def create!(file, **kwargs)
-      instance = super(kwargs)
+    def create!(file, **options)
+      instance = super(options)
 
-      if kwargs[:file_name]
-        instance.store_file(file, kwargs[:file_name])
+      if options[:file_name]
+        instance.store_file(file, options[:file_name])
       else
         instance.store_file(file)
       end
