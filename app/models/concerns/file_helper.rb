@@ -21,7 +21,7 @@ module FileHelper
                  assignment.send("deadline_#{student.class_number}")
                end
 
-    self.is_late = deadline > Time.zone.now
+    self.is_late = deadline > created_at
   end
 
   def destroy_file
