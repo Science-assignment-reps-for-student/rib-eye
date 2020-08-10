@@ -19,22 +19,6 @@ RSpec.describe 'PersonalFiles', type: :request do
       expect(response.status).to equal(204)
     end
 
-    it 'Unauthorized' do
-      request('get',
-              @url_personal_file,
-              { student_id: @student.id, assignment_id: @assignment.id },
-              false)
-      expect(response.status).to equal(401)
-    end
-
-    it 'Forbidden' do
-      request('get',
-              @url_personal_file,
-              { student_id: @student.id, assignment_id: @assignment.id },
-              JWT_BASE.create_refresh_token(sub: @student.email))
-      expect(response.status).to equal(403)
-    end
-
     it 'Not Found student id' do
       request('get',
               @url_personal_file,
@@ -52,39 +36,59 @@ RSpec.describe 'PersonalFiles', type: :request do
     end
   end
 
-  describe 'GET#index' do
-    it 'OK' do
-      request('get', @url_personal_files + "/#{@assignment.id}", false, true)
-      expect(response.status).to equal(204)
-    end
+  describe 'POST#create' do
+    it 'Created' do
+      @file.destroy!
 
-    it 'Unauthorized' do
-      request('get', @url_personal_files + "/#{@assignment.id}", false, false)
-      expect(response.status).to equal(401)
-    end
-
-    it 'Forbidden' do
-      request('get',
-              @url_personal_files + "/#{@assignment.id}",
-              false,
-              JWT_BASE.create_refresh_token(sub: @student.email))
-      expect(response.status).to equal(403)
+      request('post',
+              @url_personal_file + "/#{@assignment.id}",
+              { file: FileUtils.touch(ApplicationRecord.stored_dir + '/test.hwp') },
+              @student_token)
+      expect(response.status).to equal(201)
     end
 
     it 'Not Found assignment id' do
-      request('get',
-              @url_personal_files + "/#{@assignment.id + 1}",
-              false,
-              true)
+      request('post',
+              @url_personal_file + "/#{@assignment.id + 1}",
+              { file: FileUtils.touch(ApplicationRecord.stored_dir + '/test.hwp') },
+              @student_token)
       expect(response.status).to equal(404)
+    end
+
+    it 'Conflict' do
+      request('post',
+              @url_personal_file + "/#{@assignment.id}",
+              { file: FileUtils.touch(ApplicationRecord.stored_dir + '/test.hwp') },
+              @student_token)
+      expect(response.status).to equal(409)
+    end
+
+    it 'Unsupported Media Type' do
+      request('post',
+              @url_personal_file + "/#{@assignment.id + 1}",
+              { file: FileUtils.touch(ApplicationRecord.stored_dir + '/test.unable') },
+              @student_token)
+      expect(response.status).to equal(415)
     end
   end
 
-  describe 'POST#create' do
-
-  end
-
   describe 'DELETE#destroy' do
+    it 'OK' do
+      FileUtils.touch(ApplicationRecord.stored_dir + '/personal_file/1/1/개인.hwp')
 
+      request('delete',
+              @url_personal_file + "/#{@assignment.id}",
+              false,
+              @student_token)
+      expect(response.status).to equal(200)
+    end
+
+    it 'Not Found assignment id' do
+      request('delete',
+              @url_personal_file + "/#{@assignment.id + 1}",
+              false,
+              @student_token)
+      expect(response.status).to equal(404)
+    end
   end
 end
