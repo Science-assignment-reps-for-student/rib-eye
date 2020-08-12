@@ -33,15 +33,6 @@ class ApplicationController < ActionController::API
     @payload
   end
 
-  def refresh_token_required
-    return render status: :unauthorized unless token
-
-    @payload = @@jwt_base.refresh_token_required(token)
-    return render status: @payload[:status] if @payload[:status]
-
-    @payload
-  end
-
   def token
     return false unless request.authorization
 
