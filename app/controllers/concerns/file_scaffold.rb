@@ -43,6 +43,8 @@ module FileScaffold
         end
       end
 
+      NoticeMailer.submission(@student, @assignment).deliver_later
+
       render status: :created
     end
 
