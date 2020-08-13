@@ -32,8 +32,8 @@ module FileScaffold
              json: status.ids
     end
 
-    def create(model, **options)
-      return render status: :conflict if yield
+    def create(model, conflict_condition, **options)
+      return render status: :conflict if conflict_condition.call
 
       if @files.length == 1
         model.create!(@files[0], **options)

@@ -25,13 +25,15 @@ class ExperimentFilesController < ApplicationController
   end
 
   def create
-    super(ExperimentFile,
-          student_id: @student.id,
-          assignment_id: @assignment.id,
-          created_at: Time.zone.now) do
+    conflict_condition = proc do
       ExperimentFile.find_by_student_id_and_assignment_id(@student.id,
                                                           @assignment.id)
     end
+
+    super(ExperimentFile, conflict_condition,
+          student_id: @student.id,
+          assignment_id: @assignment.id,
+          created_at: Time.zone.now)
   end
 
   def destroy
