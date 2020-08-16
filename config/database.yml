@@ -19,6 +19,6 @@ test:
 
 production:
   <<: *default
-  password: <%= ENV['PRODUCTION_DATABASE_PASSWORD'] %>
-  host: <%= ENV['PRODUCTION_DATABASE'] %>
+  password: <%= ENV['SCARFS_PRODUCTION_PASSWORD'] %>
+  host: <%= ENV['SCARFS_PRODUCTION_HOST'] %>
   database: scarfs_production
