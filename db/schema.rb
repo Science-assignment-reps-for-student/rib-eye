@@ -20,7 +20,6 @@ ActiveRecord::Schema.define(version: 0) do
     t.bigint :assignment_id, null: false
     t.index :student_id, name: 'index_personal_file_on_student_id'
     t.index :assignment_id, name: 'index_personal_file_on_assignment_id'
-    t.index %i[student_id assignment_id], name: 'index_personal_file_on_student_id_and_assignment_id', unique: true
     t.string :file_name
     t.string :path
     t.datetime :created_at, null: false
@@ -32,7 +31,6 @@ ActiveRecord::Schema.define(version: 0) do
     t.bigint :assignment_id, null: false
     t.index :team_id, name: 'index_team_file_on_team_id'
     t.index :assignment_id, name: 'index_team_file_on_assignment_id'
-    t.index %i[team_id assignment_id], name: 'index_team_file_on_team_id_and_assignment_id', unique: true
     t.string :file_name
     t.string :path
     t.datetime :created_at, null: false
@@ -44,7 +42,6 @@ ActiveRecord::Schema.define(version: 0) do
     t.bigint :assignment_id, null: false
     t.index :student_id, name: 'index_experiment_file_on_student_id'
     t.index :assignment_id, name: 'index_experiment_file_on_assignment_id'
-    t.index %i[student_id assignment_id], name: 'index_experiment_file_on_student_id_and_assignment_id', unique: true
     t.string :file_name
     t.string :path
     t.datetime :created_at, null: false
