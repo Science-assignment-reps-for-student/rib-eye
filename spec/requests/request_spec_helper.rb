@@ -19,25 +19,48 @@ def request(method, url, params = false, headers = true)
 end
 
 def set_database(assignment_type)
-  @student = create(:student)
-  @admin = create(:admin)
-
-  @student_token = JWT_BASE.create_access_token(sub: @student.email)
-  @admin_token = JWT_BASE.create_access_token(sub: @admin.email)
+  student
+  admin
 
   @assignment = create(:assignment, type: assignment_type)
 
-  @file = if assignment_type == 'TEAM'
-            @team = create(:team, assignment_id: @assignment.id, leader_id: @student.id)
-            create(:member, team_id: @team.id, student_id: @student.id)
-            create("#{assignment_type.downcase}_file",
-                   team_id: @team.id,
-                   assignment_id: @assignment.id)
-          else
-            create("#{assignment_type.downcase}_file",
-                   student_id: @student.id,
-                   assignment_id: @assignment.id)
-          end
+  if assignment_type == 'TEAM'
+    team_file
+  elsif assignment_type == 'PERSONAL'
+    personal_file
+  else
+    experiment_file
+  end
+end
+
+def team_file
+  @team = create(:team, assignment_id: @assignment.id, leader_id: @student.id)
+  create(:member, team_id: @team.id, student_id: @student.id)
+  @file = create(:team_file,
+                 team_id: @team.id,
+                 assignment_id: @assignment.id)
+end
+
+def personal_file
+  @file = create(:personal_file,
+                 student_id: @student.id,
+                 assignment_id: @assignment.id)
+end
+
+def experiment_file
+  @file = create(:experiment_file,
+                 student_id: @student.id,
+                 assignment_id: @assignment.id)
+end
+
+def student
+  @student = create(:student)
+  @student_token = JWT_BASE.create_access_token(sub: @student.email)
+end
+
+def admin
+  @admin = create(:admin)
+  @admin_token = JWT_BASE.create_access_token(sub: @admin.email)
 end
 
 def clean_dummy_file(assignment_type)
