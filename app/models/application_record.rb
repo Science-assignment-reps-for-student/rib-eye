@@ -4,6 +4,10 @@ class ApplicationRecord < ActiveRecord::Base
 
   EXTNAME_WHITELIST = %w[.hwp .jpg .png .jpeg .pptx .word .pdf .zip].freeze
 
+  def singular_file_name(file)
+    File.basename(file)
+  end
+
   def stored_dir
     ApplicationRecord.stored_dir
   end
