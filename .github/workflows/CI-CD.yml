@@ -1,16 +1,10 @@
-name: CI
+
+name: CI/CD
 
 on:
   push:
     branches:
       - master
-      - development
-      - feature
-  pull_request:
-    branches:
-      - master
-      - development
-      - feature
 
 jobs:
   CI:
@@ -42,3 +36,25 @@ jobs:
           bundle install --jobs 4 --retry 3
       - name: run tests
         run: bundle exec rake spec
+
+  CD:
+    needs: CI
+    runs-on: ubuntu-latest
+    env:
+      SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
+      SCARFS_PRODUCTION_PASSWORD: ${{ secrets.SCARFS_PRODUCTION_PASSWORD }}
+      SCARFS_PRODUCTION_HOST: ${{ secrets.SCARFS_PRODUCTION_HOST }}
+      MAILGUN_API_KEY: ${{ secrets.MAILGUN_API_KEY }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: build docker image
+        run: docker build -t rib-eye .
+
+      - name: publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: rib-eye
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
