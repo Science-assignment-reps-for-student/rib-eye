@@ -3,9 +3,7 @@ module FileScaffold
 
   module HelperMethod
     def file_input_stream
-      params.require(:file)
-
-      @files = params[:file].map do |file|
+      @files = params[:file]&.map do |file|
         unless ApplicationRecord::EXTNAME_WHITELIST.include?(File.extname(file).downcase)
           return render status: :unsupported_media_type
         end
@@ -26,31 +24,36 @@ module FileScaffold
     end
 
     def index
-      status = yield
+      file_information = yield.map do |file|
+        {
+          file_name: file.file_name,
+          file_id: file.id
+        }
+      end
 
       render status: :ok,
-             json: status.ids
+             json: file_information
     end
 
-    def create(model, **options)
-      return render status: :conflict if yield
+    def create(model, conflict_condition, **options)
+      params.require(:file)
 
-      if @files.length == 1
-        model.create!(@files[0], **options)
-      else
-        @files.each do |file|
-          model.create!(file, **options, file_name: File.basename(file))
-        end
-      end
+      return render status: :conflict if conflict_condition.call
+
+      model.create_with_file!(@files, **options)
+
+      NoticeMailer.submission(@student, @assignment).deliver_later
 
       render status: :created
     end
 
-    def destroy
-      submit_file = yield
-      return render status: :precondition_failed if submit_file.empty?
+    def destroy(model)
+      params.require(:file_id)
 
-      submit_file.each(&:destroy!)
+      submit_file = model.find_by_id(params[:file_id])
+      return render status: :not_found unless submit_file
+
+      submit_file.destroy!
 
       render status: :ok
     end

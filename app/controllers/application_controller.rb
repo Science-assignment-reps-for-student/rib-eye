@@ -20,6 +20,8 @@ class ApplicationController < ActionController::API
   end
 
   def current_assignment
+    params.require(:assignment_id)
+
     @assignment = Assignment.find_by_id(params[:assignment_id])
     return render status: :not_found unless @assignment
   end
@@ -28,15 +30,6 @@ class ApplicationController < ActionController::API
     return render status: :unauthorized unless token
 
     @payload = @@jwt_base.jwt_required(token)
-    return render status: @payload[:status] if @payload[:status]
-
-    @payload
-  end
-
-  def refresh_token_required
-    return render status: :unauthorized unless token
-
-    @payload = @@jwt_base.refresh_token_required(token)
     return render status: @payload[:status] if @payload[:status]
 
     @payload

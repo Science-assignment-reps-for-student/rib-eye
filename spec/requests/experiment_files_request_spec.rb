@@ -27,26 +27,19 @@ RSpec.describe 'ExperimentFiles', type: :request do
   describe 'GET#index' do
     it 'OK' do
       request('get',
-              @url_experiment_file,
-              { student_id: @student.id, assignment_id: @assignment.id },
-              true)
-      expect(JSON.parse(response.body)).to eql([1])
+              @url_experiment_files + "/#{@assignment.id}",
+              false,
+              @student_token)
+      expect(JSON.parse(response.body, symbolize_names: true)).to(eql([{ file_id: @file.id,
+                                                                         file_name: @file.file_name }]))
       expect(response.status).to equal(200)
-    end
-
-    it 'Not Found Student' do
-      request('get',
-              @url_experiment_file,
-              { student_id: @student.id + 1, assignment_id: @assignment.id },
-              true)
-      expect(response.status).to equal(404)
     end
 
     it 'Not Found Assignment' do
       request('get',
-              @url_experiment_file,
-              { student_id: @student.id, assignment_id: @assignment.id + 1 },
-              true)
+              @url_experiment_files + "/#{@assignment.id + 1}",
+              false,
+              @student_token)
       expect(response.status).to equal(404)
     end
   end
@@ -92,7 +85,7 @@ RSpec.describe 'ExperimentFiles', type: :request do
       FileUtils.touch(ApplicationRecord.stored_dir + '/experiment_file/1/1/실험.hwp')
 
       request('delete',
-              @url_experiment_file + "/#{@assignment.id}",
+              @url_experiment_file + "/#{@file.id}",
               false,
               @student_token)
       expect(response.status).to equal(200)
@@ -100,7 +93,7 @@ RSpec.describe 'ExperimentFiles', type: :request do
 
     it 'Not Found assignment id' do
       request('delete',
-              @url_experiment_file + "/#{@assignment.id + 1}",
+              @url_experiment_file + "/#{@file.id + 1}",
               false,
               @student_token)
       expect(response.status).to equal(404)

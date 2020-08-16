@@ -1,17 +1,31 @@
 module FileHelper
   extend ActiveSupport::Concern
 
-  def store_file(file, name = singular_file_name(file))
-    path = File.join(stored_dir, name)
+  module FileGenerator
+    def create_with_file!(files, **options)
+      if files.length == 1
+        create!(files[0], **options).late?
+      else
+        files.map do |file|
+          create!(file, **options, file_name: File.basename(file))
+        end.each(&:late?)
+      end
+    end
+
+    def create!(file, **options)
+      super(options).store_file(file)
+    end
+  end
+
+  def store_file(file)
+    self.file_name ||= singular_file_name(file)
+    self.path = File.join(stored_dir, file_name)
+    save
 
     FileUtils.mkdir_p(stored_dir)
     FileUtils.mv(file, path)
 
-    self.file_name = name
-    self.path = path
-    late?
-
-    save
+    self
   end
 
   def late?
@@ -22,25 +36,14 @@ module FileHelper
                end
 
     self.is_late = deadline > created_at
-  end
-
-  def destroy_file
-    FileUtils.rm(File.join(stored_dir, file_name))
+    save
   end
 
   def destroy!
     super.destroy_file
   end
 
-  module FileGenerator
-    def create!(file, **options)
-      instance = super(options)
-
-      if options[:file_name]
-        instance.store_file(file, options[:file_name])
-      else
-        instance.store_file(file)
-      end
-    end
+  def destroy_file
+    FileUtils.rm(File.join(stored_dir, file_name))
   end
 end

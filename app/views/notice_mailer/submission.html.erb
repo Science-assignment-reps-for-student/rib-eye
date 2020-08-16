@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+</head>
+<body>
+<div style="width: 100%;
+    height: auto;
+    min-height: 244px;
+    margin: 0;
+    padding: 24px;
+    background-color: #EEEEEE;
+    position: relative;
+    text-align: center;">
+  <div style="width: 90%;
+      height: auto;
+      position: relative;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, 0%);">
+    <div style="height: 46px;
+        line-height: 46px;
+        background: #232323;
+        position: relative;
+        border-radius: 8px 8px 0 0;
+        padding: 0 24px;
+        text-align: left;">
+
+                    <span style="color: #FFFFFF;
+                        float:left;
+                        left: 5%;
+                        font-size: 18px;
+                        font-weight: lighter;
+                        font-family: 'Noto Sans KR', sans-serif;
+                        list-style: none;
+                    "><a href="https://dsm-scarfs.hs.kr" style="text-decoration: none; color: #ffffff;">www.dsm-scarfs.hs.kr</a></span>
+
+      <span style="color: #FFFFFF;
+          float: right;
+          font-size: 24px;
+          font-family: 'Roboto', sans-serif;
+      ">SCARFS</span>
+    </div>
+    <div style="height: auto;
+        box-sizing: border-box;
+        background-color: #ffffff;
+        padding: 16px 64px;
+        border-bottom: 1px solid #EEEEEE;
+        text-align: left;">
+      <div style="font-family: 'Noto Sans KR', sans-serif; text-align: left;">
+        <p style="margin: 0;">안녕하세요. 대덕소프트웨어마이스터고등학교 과학 과제 관리 서비스 SCARFS 입니다.</p>
+        <p style="margin: 0;"><%= @name %>님이 제출한 <span style="font-weight: bold;">"<%= @subject %>"과제가 </span><span style="color: #FF5700; font-weight: bold;"><%= @is_late %></span>처리되었습니다.</p>
+      </div>
+    </div>
+    <div style="height: auto;
+        box-sizing: border-box;
+        border-radius: 0 0 8px 8px;
+        background-color: #ffffff;
+        padding: 16px 64px;
+        text-align: left;">
+      <div style="font-family: 'Noto Sans KR', sans-serif;">
+        <p style="margin: 0;">화이팅! 곧 2학년!</p>
+        <p style="margin: 0;">과제 상태 처리가 잘못되었다면 즉시 담당자를 불러주세요!</p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
