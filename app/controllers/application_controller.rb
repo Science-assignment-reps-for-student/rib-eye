@@ -20,6 +20,8 @@ class ApplicationController < ActionController::API
   end
 
   def current_assignment
+    params.require(:assignment_id)
+
     @assignment = Assignment.find_by_id(params[:assignment_id])
     return render status: :not_found unless @assignment
   end
