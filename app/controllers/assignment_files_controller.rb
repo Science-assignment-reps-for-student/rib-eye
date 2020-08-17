@@ -6,8 +6,6 @@ class AssignmentFilesController < ApplicationController
   before_action :current_admin, only: :destroy
 
   def show
-    params.require(:file_id)
-
     super { AssignmentFile.find_by_id(params[:file_id]) }
   end
 
