@@ -30,7 +30,7 @@ class AssignmentsController < ApplicationController
     end
 
     render status: :ok,
-           json: file_information
+           json: { file_information: file_information }
   end
 
   def create

@@ -32,7 +32,7 @@ module FileScaffold
       end
 
       render status: :ok,
-             json: file_information
+             json: { file_information: file_information }
     end
 
     def create(model, conflict_condition, **options)
