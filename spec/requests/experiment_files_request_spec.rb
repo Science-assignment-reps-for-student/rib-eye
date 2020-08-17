@@ -30,8 +30,8 @@ RSpec.describe 'ExperimentFiles', type: :request do
               @url_experiment_files + "/#{@assignment.id}",
               false,
               @student_token)
-      expect(JSON.parse(response.body, symbolize_names: true)).to(eql([{ file_id: @file.id,
-                                                                         file_name: @file.file_name }]))
+      expect(JSON.parse(response.body, symbolize_names: true))
+        .to(eql(file_information: [{ file_id: @file.id, file_name: @file.file_name }]))
       expect(response.status).to equal(200)
     end
 
