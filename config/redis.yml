@@ -1,0 +1,10 @@
+defaults: &defaults
+  host: <%= ENV['SCARFS_PRODUCTION_REDIS'] %>
+  db: rib-eye
+
+development:
+  host: '127.0.0.1:6379'
+  db: rib-eye
+
+production:
+  <<: *defaults

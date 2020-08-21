@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
   scope(path: '/rib-eye') do
     # personal file controller
@@ -33,5 +35,8 @@ Rails.application.routes.draw do
     # excel file controller
     patch '/excel-file/:assignment_id', to: 'excel_files#update'
     get '/excel-file/:assignment_id', to: 'excel_files#show'
+
+    # SideKiq
+    mount Sidekiq::Web => '/sidekiq'
   end
 end
