@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'jwt_base'
 
 JWT_BASE = JWTBase.new(ENV['SECRET_KEY_BASE'], 1.days, 2.weeks).freeze
-URL_PREFIX = '/rib-eye'.freeze
+URL_PREFIX = '/v2/rib-eye'.freeze
 
 def request(method, url, params = false, headers = true)
   parameters = {}
