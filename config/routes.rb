@@ -1,7 +1,7 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
-  scope(path: '/rib-eye') do
+  scope(path: '/v2/rib-eye') do
     # personal file controller
     get '/personal-file/:file_id', to: 'personal_files#show'
     get '/personal-files/:assignment_id', to: 'personal_files#index'
