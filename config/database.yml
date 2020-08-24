@@ -19,6 +19,7 @@ test:
 
 production:
   <<: *default
+  username: <%= ENV['SCARFS_PRODUCTION_USERNAME'] %>
   password: <%= ENV['SCARFS_PRODUCTION_PASSWORD'] %>
   host: <%= ENV['SCARFS_PRODUCTION_HOST'] %>
-  database: scarfs_production
+  database: <%= ENV['SCARFS_PRODUCTION_DB'] %>
