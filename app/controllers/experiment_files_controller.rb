@@ -5,7 +5,7 @@ class ExperimentFilesController < ApplicationController
   before_action :jwt_required
   before_action :file_input_stream, only: :create
   before_action :current_assignment, only: %i[create index]
-  before_action :current_student, only: %i[create index destroy]
+  before_action :current_student, only: %i[create destroy]
   before_action :current_admin, only: :show
 
   def show
@@ -13,8 +13,11 @@ class ExperimentFilesController < ApplicationController
   end
 
   def index
+    params.require(:student_id)
+    student = Student.find_by_id(params[:student_id])
+
     super do
-      ExperimentFile.where(student: @student,
+      ExperimentFile.where(student: student,
                            assignment: @assignment)
     end
   end

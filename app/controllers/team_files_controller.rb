@@ -5,7 +5,7 @@ class TeamFilesController < ApplicationController
   before_action :jwt_required
   before_action :file_input_stream, only: :create
   before_action :current_assignment, only: %i[create index]
-  before_action :current_team, only: %i[index create destroy]
+  before_action :current_team, only: %i[create destroy]
   before_action :current_admin, only: :show
 
   def show
@@ -13,8 +13,11 @@ class TeamFilesController < ApplicationController
   end
 
   def index
+    params.require(:team_id)
+    team = Team.find_by_id(params[:team_id])
+
     super do
-      TeamFile.where(team: @team,
+      TeamFile.where(team: team,
                      assignment: @assignment)
     end
   end
