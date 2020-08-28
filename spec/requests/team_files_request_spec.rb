@@ -28,8 +28,8 @@ RSpec.describe 'TeamFiles', type: :request do
     it 'OK' do
       request('get',
               @url_team_files + "/#{@assignment.id}",
-              false,
-              @student_token)
+              { team_id: @team.id },
+              true)
       expect(JSON.parse(response.body, symbolize_names: true))
         .to(eql(file_information: [{ file_id: @file.id, file_name: @file.file_name }]))
       expect(response.status).to equal(200)
@@ -39,7 +39,7 @@ RSpec.describe 'TeamFiles', type: :request do
       request('get',
               @url_team_files + "/#{@assignment.id + 1}",
               false,
-              @student_token)
+              true)
       expect(response.status).to equal(404)
     end
   end

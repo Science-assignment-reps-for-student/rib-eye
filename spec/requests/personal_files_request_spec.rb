@@ -28,8 +28,8 @@ RSpec.describe 'PersonalFiles', type: :request do
     it 'OK' do
       request('get',
               @url_personal_files + "/#{@assignment.id}",
-              false,
-              @student_token)
+              { student_id: @student.id },
+              true)
       expect(JSON.parse(response.body, symbolize_names: true))
         .to(eql(file_information: [{ file_id: @file.id, file_name: @file.file_name }]))
       expect(response.status).to equal(200)
