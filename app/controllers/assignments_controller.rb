@@ -11,7 +11,7 @@ class AssignmentsController < ApplicationController
 
     send_file(@assignment.compressed_file_path,
               filename: @assignment.compressed_file_name,
-              status: :no_content)
+              disposition: :attachment)
   end
 
   def index
