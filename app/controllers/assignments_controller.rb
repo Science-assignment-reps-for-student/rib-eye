@@ -10,8 +10,7 @@ class AssignmentsController < ApplicationController
     @assignment.generate_compressed_file
 
     send_file(@assignment.compressed_file_path,
-              filename: @assignment.compressed_file_name,
-              disposition: :attachment)
+              filename: @assignment.compressed_file_name)
   end
 
   def index

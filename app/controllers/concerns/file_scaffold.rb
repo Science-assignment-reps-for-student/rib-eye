@@ -19,8 +19,7 @@ module FileScaffold
       return render status: :not_found unless file
 
       send_file(file.path,
-                filename: file.file_name,
-                disposition: :attachment)
+                filename: file.file_name)
     end
 
     def index
