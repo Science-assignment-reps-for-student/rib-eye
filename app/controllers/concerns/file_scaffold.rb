@@ -20,7 +20,7 @@ module FileScaffold
 
       send_file(file.path,
                 filename: file.file_name,
-                status: :ok)
+                disposition: :attachment)
     end
 
     def index
