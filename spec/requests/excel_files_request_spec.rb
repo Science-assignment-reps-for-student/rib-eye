@@ -17,7 +17,7 @@ RSpec.describe 'ExcelFiles', type: :request do
       @assignment.generate_excel_file
 
       request('get', "#{@url_excel_file}/1", false, true)
-      expect(response.status).to eql(204)
+      expect(response.status).to eql(200)
     end
 
     it 'Not Found' do

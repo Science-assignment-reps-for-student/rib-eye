@@ -24,7 +24,7 @@ RSpec.describe "AssignmentFiles", type: :request do
   describe 'GET#show' do
     it 'OK' do
       request('get', "#{@url_assignment_file}/#{@assignment.id}", false, @student_token)
-      expect(response.status).to equal(204)
+      expect(response.status).to equal(200)
     end
 
     it 'Not Found' do

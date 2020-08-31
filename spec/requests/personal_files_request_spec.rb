@@ -15,7 +15,7 @@ RSpec.describe 'PersonalFiles', type: :request do
   describe 'GET#show' do
     it 'OK' do
       request('get', "#{@url_personal_file}/1", false, true)
-      expect(response.status).to equal(204)
+      expect(response.status).to equal(200)
     end
 
     it 'Not Found' do

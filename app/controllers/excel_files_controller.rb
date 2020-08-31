@@ -14,6 +14,6 @@ class ExcelFilesController < ApplicationController
 
     send_file(excel_file.path,
               filename: excel_file.file_name,
-              status: :no_content)
+              status: :ok)
   end
 end
