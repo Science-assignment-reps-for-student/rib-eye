@@ -1,4 +1,6 @@
 class ExcelFilesController < ApplicationController
+  include FileScaffold::ControllerMethod
+
   before_action :jwt_required
   before_action :current_assignment
 
@@ -9,11 +11,6 @@ class ExcelFilesController < ApplicationController
   end
 
   def show
-    excel_file = @assignment.excel_file
-    return render status: :not_found unless excel_file
-
-    send_file(excel_file.path,
-              filename: excel_file.file_name,
-              status: :ok)
+    super { @assignment.excel_file }
   end
 end
