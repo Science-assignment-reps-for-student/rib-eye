@@ -2,7 +2,7 @@ class AssignmentsController < ApplicationController
   include FileScaffold::HelperMethod
 
   before_action :jwt_required
-  before_action :file_input_stream, only: :create
+  before_action :file_input_stream, only: %i[create update]
   before_action :current_assignment, except: :create
   before_action :current_admin
 
@@ -44,9 +44,7 @@ class AssignmentsController < ApplicationController
                                     deadline_3: params[:deadline_3],
                                     deadline_4: params[:deadline_4])
 
-    @files&.each do |file|
-      AssignmentFile.create!(file, assignment: assignment)
-    end
+    @files&.each { |file| AssignmentFile.create!(file, assignment: assignment) }
 
     render status: :created
   end
@@ -62,6 +60,9 @@ class AssignmentsController < ApplicationController
                         deadline_2: params[:deadline_2],
                         deadline_3: params[:deadline_3],
                         deadline_4: params[:deadline_4])
+
+    @assignment.assignment_files.each(&:destroy!)
+    @files&.each { |file| AssignmentFile.create!(file, assignment: assignment) }
 
     render status: :ok
   end
