@@ -62,7 +62,7 @@ class AssignmentsController < ApplicationController
                         deadline_4: params[:deadline_4])
 
     @assignment.assignment_files.each(&:destroy!)
-    @files&.each { |file| AssignmentFile.create!(file, assignment: assignment) }
+    @files&.each { |file| AssignmentFile.create!(file, assignment: @assignment.reload) }
 
     render status: :ok
   end
