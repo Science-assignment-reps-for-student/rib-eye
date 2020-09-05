@@ -4,19 +4,22 @@ Rails.application.routes.draw do
   scope(path: '/v2/rib-eye') do
     # personal file controller
     get '/personal-file/:file_id', to: 'personal_files#show'
-    get '/personal-files/:assignment_id', to: 'personal_files#index'
+    get '/personal-files/:assignment_id', to: 'personal_files#status_for_admin'
+    get '/personal-file/status/:assignment_id', to: 'personal_files#status_for_student'
     post '/personal-file/:assignment_id', to: 'personal_files#create'
     delete '/personal-file/:file_id', to: 'personal_files#destroy'
 
     # team file controller
     get '/team-file/:file_id', to: 'team_files#show'
-    get '/team-files/:assignment_id', to: 'team_files#index'
+    get '/team-files/:assignment_id', to: 'team_files#status_for_admin'
+    get '/team-file/status/:assignment_id', to: 'team_files#status_for_student'
     post '/team-file/:assignment_id', to: 'team_files#create'
     delete '/team-file/:file_id', to: 'team_files#destroy'
 
     # experiment file controller
     get '/experiment-file/:file_id', to: 'experiment_files#show'
-    get '/experiment-files/:assignment_id', to: 'experiment_files#index'
+    get '/experiment-files/:assignment_id', to: 'experiment_files#status_for_admin'
+    get '/experiment-file/status/:assignment_id', to: 'experiment_files#status_for_student'
     post '/experiment-file/:assignment_id', to: 'experiment_files#create'
     delete '/experiment-file/:file_id', to: 'experiment_files#destroy'
 
