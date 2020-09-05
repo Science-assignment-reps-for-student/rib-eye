@@ -32,11 +32,7 @@ class TeamFilesController < ApplicationController
   end
 
   def create
-    conflict_condition = proc do
-      TeamFile.find_by_team_id_and_assignment_id(@team.id, @assignment.id)
-    end
-
-    super(TeamFile, conflict_condition,
+    super(TeamFile,
           team: @team,
           assignment: @assignment,
           created_at: Time.zone.now)

@@ -34,10 +34,8 @@ module FileScaffold
              json: { file_information: file_information }
     end
 
-    def create(model, conflict_condition, **options)
+    def create(model, **options)
       params.require(:file)
-
-      return render status: :conflict if conflict_condition.call
 
       model.create_with_file!(@files, **options)
 

@@ -32,12 +32,7 @@ class PersonalFilesController < ApplicationController
   end
 
   def create
-    conflict_condition = proc do
-      PersonalFile.find_by_student_id_and_assignment_id(@student.id,
-                                                        @assignment.id)
-    end
-
-    super(PersonalFile, conflict_condition,
+    super(PersonalFile,
           student: @student,
           assignment: @assignment,
           created_at: Time.zone.now)

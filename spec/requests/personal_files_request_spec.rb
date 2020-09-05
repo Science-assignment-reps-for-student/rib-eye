@@ -83,14 +83,6 @@ RSpec.describe 'PersonalFiles', type: :request do
       expect(response.status).to equal(404)
     end
 
-    it 'Conflict' do
-      request('post',
-              @url_personal_file + "/#{@assignment.id}",
-              { file: FileUtils.touch(ApplicationRecord.stored_dir + '/test.hwp') },
-              @student_token)
-      expect(response.status).to equal(409)
-    end
-
     it 'Unsupported Media Type' do
       request('post',
               @url_personal_file + "/#{@assignment.id + 1}",
