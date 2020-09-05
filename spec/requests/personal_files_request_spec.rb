@@ -24,7 +24,7 @@ RSpec.describe 'PersonalFiles', type: :request do
     end
   end
 
-  describe 'GET#index' do
+  describe 'GET#status_for_admin' do
     it 'OK' do
       request('get',
               @url_personal_files + "/#{@assignment.id}",
@@ -40,6 +40,26 @@ RSpec.describe 'PersonalFiles', type: :request do
               @url_personal_files + "/#{@assignment.id + 1}",
               false,
               true)
+      expect(response.status).to equal(404)
+    end
+  end
+
+  describe 'GET#status_for_student' do
+    it 'OK' do
+      request('get',
+              @url_personal_file + "/status/#{@assignment.id}",
+              false,
+              @student_token)
+      expect(JSON.parse(response.body, symbolize_names: true))
+        .to(eql(file_information: [{ file_id: @file.id, file_name: @file.file_name }]))
+      expect(response.status).to equal(200)
+    end
+
+    it 'Not Found Assignment' do
+      request('get',
+              @url_personal_file + "/status/#{@assignment.id + 1}",
+              false,
+              @student_token)
       expect(response.status).to equal(404)
     end
   end
