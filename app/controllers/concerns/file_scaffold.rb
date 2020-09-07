@@ -37,7 +37,12 @@ module FileScaffold
     def create(model, **options)
       params.require(:file)
 
-      model.create_with_file!(@files, **options)
+      submitted_assignments = if model.name == 'TeamFile'
+                                model.where(team: @team)
+                              else
+                                model.where(student: @student)
+                              end
+      model.create_with_file!(@files, submitted_assignments.blank?, **options)
 
       NoticeMailer.submission(@student, @assignment).deliver_later
 

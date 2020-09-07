@@ -2,8 +2,8 @@ module FileHelper
   extend ActiveSupport::Concern
 
   module FileGenerator
-    def create_with_file!(files, **options)
-      if files.length == 1
+    def create_with_file!(files, is_initial_submission, **options)
+      if files.length == 1 && is_initial_submission
         create!(files[0], **options).late?
       else
         files.map do |file|
