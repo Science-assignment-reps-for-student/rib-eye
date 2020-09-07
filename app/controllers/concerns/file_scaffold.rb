@@ -42,6 +42,12 @@ module FileScaffold
                               else
                                 model.where(student: @student)
                               end
+      @files.each do |file|
+        if submitted_assignments.find_by_file_name(File.basename(file))
+          return render status: :conflict
+        end
+      end
+
       model.create_with_file!(@files, submitted_assignments.blank?, **options)
 
       NoticeMailer.submission(@student, @assignment).deliver_later
