@@ -8,7 +8,8 @@ module FileScaffold
           return render status: :unsupported_media_type
         end
 
-        File.open(file)
+        File.rename(file, "#{File.dirname(file)}/#{file.original_filename}")
+        File.open("#{File.dirname(file)}/#{file.original_filename}")
       end
     end
   end
