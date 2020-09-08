@@ -70,7 +70,7 @@ RSpec.describe 'PersonalFiles', type: :request do
 
       request('post',
               @url_personal_file + "/#{@assignment.id}",
-              { file: FileUtils.touch(ApplicationRecord.stored_dir + '/test.hwp') },
+              { file: [form_data(FileUtils.touch(ApplicationRecord.stored_dir + '/test.hwp')[0])] },
               @student_token)
       expect(response.status).to equal(201)
     end
@@ -78,7 +78,7 @@ RSpec.describe 'PersonalFiles', type: :request do
     it 'Not Found assignment id' do
       request('post',
               @url_personal_file + "/#{@assignment.id + 1}",
-              { file: FileUtils.touch(ApplicationRecord.stored_dir + '/test.hwp') },
+              { file: [form_data(FileUtils.touch(ApplicationRecord.stored_dir + '/test.hwp')[0])] },
               @student_token)
       expect(response.status).to equal(404)
     end

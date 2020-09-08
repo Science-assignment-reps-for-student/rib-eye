@@ -69,3 +69,7 @@ def clean_dummy_file(assignment_type)
   FileUtils.rm_rf(File.join(ApplicationRecord.stored_dir, 'test.hwp'))
   FileUtils.rm_rf(File.join(ApplicationRecord.stored_dir, 'test.unable'))
 end
+
+def form_data(data)
+  Rack::Test::UploadedFile.new(data)
+end

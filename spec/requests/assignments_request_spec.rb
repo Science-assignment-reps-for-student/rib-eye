@@ -58,7 +58,7 @@ RSpec.describe 'Assignments', type: :request do
     it 'OK' do
       request('post',
               @url_assignment,
-              { file: FileUtils.touch(ApplicationRecord.stored_dir + '/test.hwp'),
+              { file: [form_data(FileUtils.touch(ApplicationRecord.stored_dir + '/test.hwp')[0])],
                 title: 'title',
                 description: 'description',
                 type: 'PERSONAL',
