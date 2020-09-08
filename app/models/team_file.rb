@@ -10,7 +10,7 @@ class TeamFile < ApplicationRecord
   end
 
   def singular_file_name(file)
-    "'[#{assignment.type_korean}][#{assignment.title}]"\
-    "#{team.student.class_number}반_#{team.name}" + File.extname(file) + "'"
+    "[#{assignment.type_korean}][#{assignment.title}]"\
+    "#{team.student.class_number}반_#{team.name}" + File.extname(file) + ""
   end
 end

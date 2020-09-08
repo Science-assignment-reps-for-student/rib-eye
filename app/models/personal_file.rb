@@ -10,7 +10,7 @@ class PersonalFile < ApplicationRecord
   end
 
   def singular_file_name(file)
-    "'[#{assignment.type_korean}][#{assignment.title}]"\
-    "#{student.student_number}_#{student.name}" + File.extname(file) + "'"
+    "[#{assignment.type_korean}][#{assignment.title}]"\
+    "#{student.student_number}_#{student.name}" + File.extname(file) + ""
   end
 end
