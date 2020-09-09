@@ -14,22 +14,10 @@ class AssignmentsController < ApplicationController
   end
 
   def index
-    submitted_by = if @assignment.type == 'TEAM'
-                     Team.find_by_id(params[:team_id])
-                   else
-                     Student.find_by_id(params[:student_id])
-                   end
-    return render status: :not_found unless submitted_by
-
-    file_information = submitted_by.send("#{@assignment.type.downcase}_files").map do |file|
-      {
-        file_id: file.id,
-        file_name: file.file_name
-      }
-    end
+    @assignment.compressed_file_name
 
     render status: :ok,
-           json: { file_information: file_information }
+           json: { compressed_file_name: @assignment.compressed_file_name }
   end
 
   def create

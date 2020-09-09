@@ -28,7 +28,7 @@ RSpec.describe 'Assignments', type: :request do
               true)
       expect(response.status).to equal(200)
       expect(JSON.parse(response.body, symbolize_names: true))
-        .to(eql(file_information: [{ file_id: @file.id, file_name: @file.file_name }]))
+        .to(eql(compressed_file_name: @assignment.compressed_file_name))
     end
 
     it 'Get Team File' do
@@ -42,7 +42,7 @@ RSpec.describe 'Assignments', type: :request do
 
       expect(response.status).to equal(200)
       expect(JSON.parse(response.body, symbolize_names: true))
-        .to(eql(file_information: [{ file_id: @file.id, file_name: @file.file_name }]))
+        .to(eql(compressed_file_name: @assignment.compressed_file_name))
     end
 
     it 'Not Found' do
