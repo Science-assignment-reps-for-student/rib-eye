@@ -46,7 +46,7 @@ class Assignment < ApplicationRecord
   end
 
   def compressed_file_name
-    "'[#{type_korean}]#{title}.zip'"
+    "[#{type_korean}]#{title}.zip"
   end
 
   def search_directory_recursively(directory)
