@@ -19,6 +19,7 @@ module FileScaffold
       file = yield
       return render status: :not_found unless file
 
+      response.headers['Content-Length'] = File.size(file.path)
       send_file(file.path,
                 filename: file.file_name)
     end
