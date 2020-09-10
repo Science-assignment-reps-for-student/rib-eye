@@ -39,6 +39,7 @@ class Assignment < ApplicationRecord
         zip.add(File.basename(path), path)
       end
     end
+    File.open(compressed_file_path)
   end
 
   def compressed_file_path
