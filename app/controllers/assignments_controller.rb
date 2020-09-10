@@ -7,10 +7,11 @@ class AssignmentsController < ApplicationController
   before_action :current_admin
 
   def show
-    @assignment.generate_compressed_file
+    file = @assignment.generate_compressed_file
 
-    send_file(@assignment.compressed_file_path,
-              filename: @assignment.compressed_file_name)
+    response.headers['Content-Length'] = File.size(file.path)
+    send_file(file.path,
+              filename: File.basename(file))
   end
 
   def index
