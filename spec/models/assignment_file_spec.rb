@@ -16,7 +16,7 @@ RSpec.describe AssignmentFile, type: :model do
   describe 'file process' do
     it 'check stored directory' do
       expect(@assignment_file.stored_dir).to eql(ApplicationRecord.stored_dir +
-                                                 "/assignment_file/#{@assignment.id}/#{@assignment_file.id}")
+                                                 "/assignment_file/#{@assignment.id}")
     end
   end
 end
