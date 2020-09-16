@@ -43,9 +43,9 @@ module FileScaffold
       params.require(:file)
 
       submitted_assignments = if model.name == 'TeamFile'
-                                model.where(team: @team)
+                                model.where(team: @team, assignment: @assignment)
                               else
-                                model.where(student: @student)
+                                model.where(student: @student, assignment: @assignment)
                               end
       conflict_files = @files.map do |file|
         if submitted_assignments.find_by_file_name(File.basename(file))
