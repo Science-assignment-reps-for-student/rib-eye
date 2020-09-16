@@ -73,6 +73,11 @@ RSpec.describe 'Assignments', type: :request do
   end
 
   describe 'PATCH#update' do
+    before(:all) do
+      FileUtils.mkdir_p(ApplicationRecord.stored_dir + '/assignment_file/1')
+      @file = form_data(FileUtils.touch(ApplicationRecord.stored_dir + '/assignment_file/1/양식.hwp')[0])
+    end
+
     it 'OK' do
       request('patch',
               @url_assignment + "/#{@assignment.id}",
@@ -82,7 +87,8 @@ RSpec.describe 'Assignments', type: :request do
                 deadline_1: DateTime.new(2020),
                 deadline_2: DateTime.new(2020),
                 deadline_3: DateTime.new(2020),
-                deadline_4: DateTime.new(2020) }, true)
+                deadline_4: DateTime.new(2020),
+                file: [@file] }, true)
       expect(response.status).to equal(200)
     end
 
@@ -95,7 +101,8 @@ RSpec.describe 'Assignments', type: :request do
                 deadline_1: DateTime.new(2020),
                 deadline_2: DateTime.new(2020),
                 deadline_3: DateTime.new(2020),
-                deadline_4: DateTime.new(2020) }, true)
+                deadline_4: DateTime.new(2020),
+                file: [@file] }, true)
       expect(response.status).to equal(404)
     end
   end
