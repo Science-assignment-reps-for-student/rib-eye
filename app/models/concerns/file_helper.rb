@@ -35,7 +35,7 @@ module FileHelper
                  assignment.send("deadline_#{student.class_number}")
                end
 
-    self.is_late = deadline > created_at
+    self.is_late = deadline < created_at
     save
   end
 
