@@ -9,6 +9,7 @@ module FileScaffold
       @files = params[:file].map do |file|
         unless ApplicationRecord::EXTNAME_WHITELIST.include?(File.extname(file).downcase)
           return render status: :unsupported_media_type
+          return render status: :bad_request if File.basename(file).match(%r{/})
         end
 
         File.rename(file, "#{File.dirname(file)}/#{file.original_filename}")
@@ -55,7 +56,8 @@ module FileScaffold
 
       unless conflict_files.blank?
         return render status: :conflict,
-                      json: { conflict_files: conflict_files }
+                      json: { conflict_files: conflict_files,
+                              status: 409 }
       end
 
       model.create_with_file!(@files, submitted_assignments.blank?, **options)

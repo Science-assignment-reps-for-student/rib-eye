@@ -24,6 +24,7 @@ class AssignmentsController < ApplicationController
   def create
     params.require(%i[title description type deadline_1 deadline_2 deadline_3 deadline_4])
     return render status: :bad_request unless Assignment.types.keys.include?(params[:type])
+    return render status: :bad_request if params[:title].match(%r{/})
 
     assignment = Assignment.create!(title: params[:title],
                                     description: params[:description],
