@@ -29,6 +29,9 @@ class Assignment < ApplicationRecord
     end
   end
 
+  def files
+    send("#{type.downcase}_files")
+  end
 
   def generate_compressed_file
     FileUtils.rm_f(compressed_file_path)
