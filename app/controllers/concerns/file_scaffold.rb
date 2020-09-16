@@ -3,7 +3,9 @@ module FileScaffold
 
   module HelperMethod
     def file_input_stream
-      @files = params[:file]&.map do |file|
+      params.require(:file)
+
+      @files = params[:file].map do |file|
         unless ApplicationRecord::EXTNAME_WHITELIST.include?(File.extname(file).downcase)
           return render status: :unsupported_media_type
         end
