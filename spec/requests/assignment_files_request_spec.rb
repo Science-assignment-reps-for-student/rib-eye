@@ -8,7 +8,7 @@ RSpec.describe "AssignmentFiles", type: :request do
     @assignment = create(:assignment)
     @file = create(:assignment_file,
                    assignment_id: @assignment.id,
-                   path: ApplicationRecord.stored_dir + '/assignment_file/1/1/양식.hwp')
+                   path: ApplicationRecord.stored_dir + '/assignment_file/1/양식.hwp')
 
     FileUtils.mkdir_p(File.dirname(@file.path))
     FileUtils.touch(@file.path)
