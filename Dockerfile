@@ -23,8 +23,7 @@ RUN bundle install --without development test
 
 EXPOSE 3001
 
-ENTRYPOINT ["bundle", "exec", "sidekiq"]
-CMD ["-e", "production"]
+ENTRYPOINT ["bundle", "exec", "sidekiq", "-e", production]
 
 ENTRYPOINT ["rails", "server"]
 CMD ["-b", "0.0.0.0", "-p", "3001"]
