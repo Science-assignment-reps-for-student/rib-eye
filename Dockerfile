@@ -19,11 +19,10 @@ RUN mkdir rib-eye
 COPY . rib-eye
 WORKDIR rib-eye
 
-RUN bundle install --without development test
+RUN bundle config set without development test
+RUN bundle install
 
 EXPOSE 3001
 
-CMD ["bundle", "exec", "sidekiq", "-e", production]
-
-ENTRYPOINT ["rails", "server"]
-CMD ["-b", "0.0.0.0", "-p", "3001"]
+CMD ["bundle", "exec", "sidekiq" ,"-e", "production"]
+CMD ["rails", "server", "-b", "0.0.0.0", "-p", "3001"]
