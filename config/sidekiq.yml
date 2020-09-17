@@ -12,6 +12,7 @@ development:
 production:
   :verbose: false
   :logfile: ./log/sidekiq-production.log
+  :pidfile: ./tmp/pids/sidekiq.pid
   :concurrency: 10
   :timeout: 5
   :queues:
