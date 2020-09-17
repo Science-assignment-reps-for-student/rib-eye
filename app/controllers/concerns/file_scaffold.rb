@@ -3,7 +3,6 @@ module FileScaffold
 
   module HelperMethod
     def file_input_stream
-      params.require(:file)
       return render status: :bad_request unless params[:file].class == Array
 
       @files = params[:file].map do |file|
