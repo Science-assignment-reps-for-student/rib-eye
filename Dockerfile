@@ -22,7 +22,7 @@ WORKDIR rib-eye
 RUN bundle config set without development test
 RUN bundle install
 
-EXPOSE 3001
+ENTRYPOINT ["./entrypoint.sh"]
+CMD ["0.0.0.0", "3001"]
 
-CMD ["bundle", "exec", "sidekiq" ,"-e", "production"]
-CMD ["rails", "server", "-b", "0.0.0.0", "-p", "3001"]
+EXPOSE 3001
