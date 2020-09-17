@@ -3,9 +3,7 @@ module FileScaffold
 
   module HelperMethod
     def file_input_stream
-      return render status: :bad_request unless params[:file].class == Array
-
-      @files = params[:file].map do |file|
+      @files = params[:file]&.map do |file|
         unless ApplicationRecord::EXTNAME_WHITELIST.include?(File.extname(file).downcase)
           return render status: :unsupported_media_type
           return render status: :bad_request if File.basename(file).match(%r{/})
@@ -41,6 +39,7 @@ module FileScaffold
 
     def create(model, **options)
       params.require(:file)
+      return render status: :bad_request unless @files
 
       submitted_assignments = if model.name == 'TeamFile'
                                 model.where(team: @team, assignment: @assignment)
