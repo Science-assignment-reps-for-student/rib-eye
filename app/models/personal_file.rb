@@ -1,6 +1,4 @@
-class PersonalFile < ApplicationRecord
-  include FileHelper
-  extend FileHelper::FileGenerator
+class PersonalFile < FileExtension
 
   belongs_to :assignment
   belongs_to :student
