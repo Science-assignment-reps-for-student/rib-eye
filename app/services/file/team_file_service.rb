@@ -4,7 +4,7 @@ class TeamFileService < Service
     @assignment = Assignment.find_by_id(assignment_id)
   end
 
-  def status
+  def index
     files = TeamFile.where(team: @team, assignment: @assignment)
     files.map do |file|
       {
