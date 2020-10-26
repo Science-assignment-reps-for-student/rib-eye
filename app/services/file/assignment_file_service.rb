@@ -1,4 +1,4 @@
-class AssignmentFileService
+class AssignmentFileService < Service
   def initialize(assignment_id:)
     @assignment = Assignment.find_by_id(assignment_id)
   end
