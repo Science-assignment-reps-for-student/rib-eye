@@ -1,6 +1,6 @@
 require 'utils/excel_util'
 
-class ExcelFileService
+class ExcelFileService < Service
   def initialize(assignment_id:)
     @assignment = Assignment.find_by_id(assignment_id)
   end
