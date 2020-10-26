@@ -1,6 +1,8 @@
 require 'utils/excel_util'
 
 class ExcelFileService < Service
+  attr_reader :assignment
+
   def initialize(assignment_id:)
     @assignment = Assignment.find_by_id(assignment_id)
   end
