@@ -3,9 +3,9 @@ class TeamFileService < Service
     @team = Team.find_by_student_id_and_assignment_id(student_id, assignment_id)
     @assignment = Assignment.find_by_id(assignment_id)
   end
-  
+
   def self.instance(**kwargs)
-    super do |instance|
+    super(kwargs) do |instance|
       (instance.team.id == kwargs[:team_id]) &&
         (instance.assignment.id = kwargs[:assignment_id])
     end
