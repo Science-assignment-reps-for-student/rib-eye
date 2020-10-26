@@ -1,4 +1,4 @@
-class TeamFileService
+class TeamFileService < Service
   def initialize(team_id:, assignment_id:)
     @team = Team.find_by_id(team_id)
     @assignment = Assignment.find_by_id(assignment_id)
