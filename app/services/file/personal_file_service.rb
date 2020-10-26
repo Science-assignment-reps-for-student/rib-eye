@@ -5,7 +5,7 @@ class PersonalFileService < Service
     @model = model
   end
 
-  def status
+  def index
     files = @model.where(student: @student, assignment: @assignment)
     files.map do |file|
       {
