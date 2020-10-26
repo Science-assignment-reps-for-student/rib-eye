@@ -1,4 +1,6 @@
 class PersonalFileService < Service
+  attr_reader :student, :assignment
+
   def initialize(student_id:, assignment_id:, model:)
     @student = Student.find_by_id(student_id)
     @assignment = Assignment.find_by_id(assignment_id)
