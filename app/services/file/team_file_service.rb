@@ -3,6 +3,13 @@ class TeamFileService < Service
     @team = Team.find_by_student_id_and_assignment_id(student_id, assignment_id)
     @assignment = Assignment.find_by_id(assignment_id)
   end
+  
+  def self.instance
+    super do |instance, kwargs|
+      (instance.team.id == kwargs[:team_id]) &&
+        (instance.assignment.id = kwargs[:assignment_id])
+    end
+  end
 
   def index
     files = TeamFile.where(team: @team, assignment: @assignment)
