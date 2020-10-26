@@ -1,11 +1,11 @@
-class PersonalFileService
+class PersonalFileService < Service
   def initialize(student_id:, assignment_id:, model:)
     @student = Student.find_by_id(student_id)
     @assignment = Assignment.find_by_id(assignment_id)
     @model = model
   end
 
-  def status
+  def index
     files = @model.where(student: @student, assignment: @assignment)
     files.map do |file|
       {
