@@ -1,6 +1,6 @@
 class TeamFileService < Service
-  def initialize(team_id:, assignment_id:)
-    @team = Team.find_by_id(team_id)
+  def initialize(student_id:, assignment_id:)
+    @team = Team.find_by_student_id_and_assignment_id(student_id, assignment_id)
     @assignment = Assignment.find_by_id(assignment_id)
   end
 
