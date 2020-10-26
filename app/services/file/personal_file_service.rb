@@ -5,6 +5,13 @@ class PersonalFileService < Service
     @model = model
   end
 
+  def self.instance(**kwargs)
+    super(kwargs) do |instance|
+      (instance.student.id == kwargs[:student_id]) &&
+        (instance.assignment.id == kwargs[:assignment_id])
+    end
+  end
+
   def index
     files = @model.where(student: @student, assignment: @assignment)
     files.map do |file|
