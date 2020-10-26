@@ -3,7 +3,7 @@ class Service
   @@instance_pool = []
 
   def self.instance(**kwargs)
-    existing_index = @@instance_pool[@@instance_pool.find_index { |instance| yield(instance, kwargs) }]
+    existing_index = @@instance_pool[@@instance_pool.find_index { |instance| yield(instance) }]
     if existing_index
       @@instance_pool.insert(0, @@instance_pool.delete_at(existing_index))
       @@instance_pool[existing_index]
