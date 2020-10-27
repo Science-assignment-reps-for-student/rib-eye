@@ -1,20 +1,6 @@
-class TeamFileService < Service
-  attr_reader :team, :assignment
-
-  def initialize(student_id:, assignment_id:)
-    @team = Team.find_by_student_id_and_assignment_id(student_id, assignment_id)
-    @assignment = Assignment.find_by_id(assignment_id)
-  end
-
-  def self.instance(**kwargs)
-    super(kwargs) do |instance|
-      (instance.team.id == kwargs[:team_id]) &&
-        (instance.assignment.id = kwargs[:assignment_id])
-    end
-  end
-
-  def index
-    files = TeamFile.where(team: @team, assignment: @assignment)
+class TeamFileService
+  def self.index(team_id:, assignment_id:)
+    files = TeamFile.where(team_id: team_id, assignment_id: assignment_id)
     files.map do |file|
       {
         file_name: file.file_name,
@@ -23,18 +9,20 @@ class TeamFileService < Service
     end
   end
 
-  def create(files, **options)
-    existing_files = TeamFile.where(student: @team, assignment: @assignment)
+  def self.create(files:, **options)
+    existing_files = TeamFile.where(team_id: options[:team_id], assignment_id: options[:assignment_id])
     conflicting_files = files.map do |file|
       existing_files.find_by_file_name(File.basename(file)).file_name
     end.compact
+
     TeamFile.create_with_file!(files, existing_files.blank?, **options)
-    @team.students.each do |student|
-      NoticeMailer.submission(student, @assignment).deliver_later
+
+    Team.find_by_id(options[:team_id]).students.each do |student|
+      NoticeMailer.submission(student, Assignment.find_by_id(options[:assignment_id])).deliver_later
     end
   end
 
-  def destroy(file_id)
+  def self.destroy(file_id)
     existing_file = TeamFile.find_by_id(file_id)
     existing_file.destroy!
   end
