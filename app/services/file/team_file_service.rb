@@ -10,19 +10,22 @@ class TeamFileService
   end
 
   def self.create(files:, **options)
-    existing_files = TeamFile.where(team_id: options[:team_id], assignment_id: options[:assignment_id])
+    team = Team.find_by_id(options[:team_id])
+    assignment = Assignment.find_by_id(options[:assignment_id])
+
+    existing_files = TeamFile.where(team: team, assignment: assignment)
     conflicting_files = files.map do |file|
       existing_files.find_by_file_name(File.basename(file)).file_name
     end.compact
 
     TeamFile.create_with_file!(files, existing_files.blank?, **options)
 
-    Team.find_by_id(options[:team_id]).students.each do |student|
-      NoticeMailer.submission(student, Assignment.find_by_id(options[:assignment_id])).deliver_later
+    team.students.each do |student|
+      NoticeMailer.submission(student, assignment).deliver_later
     end
   end
 
-  def self.destroy(file_id)
+  def self.destroy(file_id:)
     existing_file = TeamFile.find_by_id(file_id)
     existing_file.destroy!
   end
