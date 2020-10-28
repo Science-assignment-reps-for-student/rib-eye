@@ -1,5 +1,5 @@
-class TeamFileService
-  def self.index(team_id:, assignment_id:)
+module TeamFileService
+  def index(team_id:, assignment_id:)
     files = TeamFile.where(team_id: team_id, assignment_id: assignment_id)
     files.map do |file|
       {
@@ -9,7 +9,7 @@ class TeamFileService
     end
   end
 
-  def self.create(files:, **options)
+  def create(files:, **options)
     team = Team.find_by_id(options[:team_id])
     assignment = Assignment.find_by_id(options[:assignment_id])
 
@@ -23,7 +23,7 @@ class TeamFileService
     end
   end
 
-  def self.destroy(file_id:)
+  def destroy(file_id:)
     existing_file = TeamFile.find_by_id(file_id)
     existing_file.destroy!
   end
