@@ -14,9 +14,7 @@ class TeamFileService
     assignment = Assignment.find_by_id(options[:assignment_id])
 
     existing_files = TeamFile.where(team: team, assignment: assignment)
-    conflicting_files = files.map do |file|
-      existing_files.find_by_file_name(File.basename(file)).file_name
-    end.compact
+    conflicting_files = (files & existing_files).map(&:file_name)
 
     TeamFile.create_with_file!(files, existing_files.blank?, **options)
 
