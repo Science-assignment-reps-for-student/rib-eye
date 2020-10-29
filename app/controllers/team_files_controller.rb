@@ -1,6 +1,8 @@
+require './app/services/team_file_service'
+
 class TeamFilesController < ApplicationController
-  include FileScaffold::ControllerMethod
   include FileScaffold::HelperMethod
+  include TeamFileService
 
   before_action :jwt_required
   before_action :file_input_stream, only: :create
@@ -9,36 +11,45 @@ class TeamFilesController < ApplicationController
   before_action :current_admin, only: %i[show status_for_admin]
 
   def show
-    super { TeamFile.find_by_id(params[:file_id]) }
+    params.require(%i[file_id])
+
+    file = TeamFile.find_by_id(params[:file_id])
+
+    send_file(file.path,
+              filename: file.file_name)
   end
 
   def status_for_admin
-    params.require(:team_id)
+    params.require(%i[team_id assignment_id])
 
-    team = Team.find_by_id(params[:team_id])
-    return render status: :not_found unless team
-
-    index do
-      TeamFile.where(team: team,
-                     assignment: @assignment)
-    end
+    render json: { file_information: index(team_id: params[:team_id],
+                                           assignment_id: params[:assignment_id])},
+           status: :ok
   end
 
   def status_for_student
-    index do
-      TeamFile.where(team: @team,
-                     assignment: @assignment)
-    end
+    params.require(%i[assignment_id])
+
+    render json: { file_information: index(team_id: @student.team(params[:assignment_id]).id,
+                                           assignment_id: params[:assignment_id]) },
+           status: :ok
   end
 
   def create
-    super(TeamFile,
-          team: @team,
-          assignment: @assignment,
-          created_at: Time.zone.now)
+    params.require(%i[assignment_id])
+
+    super(files: @files,
+          team_id: @student.team(params[:assignment_id]).id,
+          assignment_id: params[:assignment_id])
+
+    render status: :created
   end
 
   def destroy
-    super(TeamFile)
+    params.permit(%i[file_id])
+
+    super(file_id: params[:file_id])
+
+    render status: :ok
   end
 end
