@@ -1,11 +1,9 @@
 class ExcelUtil
-  def initialize(assignment)
-    @assignment = assignment
+  def initialize(assignment_id:)
+    @assignment = Assignment.find_by_id(assignment_id)
   end
 
   def generate_excel_file
-    FileUtils.rm_rf(stored_dir)
-
     if @assignment.type == 'PERSONAL'
       create_personal_assignment_excel_file
     else
@@ -49,7 +47,7 @@ class ExcelUtil
               book.create_worksheet(name: '3반'),
               book.create_worksheet(name: '4반')]
 
-    ExcelFile.set_form(sheets)
+    self.class.set_form(sheets)
 
     row_set = [3, 3, 3, 3]
     Team.where(assignment_id: @assignment.id).order(name: :asc).each do |team|
@@ -102,8 +100,9 @@ class ExcelUtil
                      "excel_file/#{@assignment.id}",
                      file_name)
 
-    if excel_file
-      excel_file.update!(path: path, file_name: file_name)
+    if @assignment.excel_file
+      FileUtils.rm_rf(@assignment.excel_file.stored_dir)
+      @assignment.excel_file.update!(path: path, file_name: file_name)
     else
       ExcelFile.create!(assignment_id: @assignment.id,
                         path: path,
