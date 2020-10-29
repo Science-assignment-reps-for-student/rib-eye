@@ -8,7 +8,12 @@ class AssignmentFilesController < ApplicationController
   before_action :current_admin, only: :destroy
 
   def show
-    super { AssignmentFile.find_by_id(params[:file_id]) }
+    params.require(%i[file_id])
+
+    file = AssignmentFile.find_by_id(params[:file_id])
+
+    send_file(file.path,
+              filename: file.file_name)
   end
 
   def index
