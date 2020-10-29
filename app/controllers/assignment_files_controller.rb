@@ -1,5 +1,7 @@
+require './app/services/assignment_file_service'
+
 class AssignmentFilesController < ApplicationController
-  include FileScaffold::ControllerMethod
+  include AssignmentFileService
 
   before_action :jwt_required
   before_action :current_assignment, only: :index
@@ -10,17 +12,17 @@ class AssignmentFilesController < ApplicationController
   end
 
   def index
-    file_information = @assignment.assignment_files.map do |file|
-      {
-        file_name: file.file_name,
-        file_id: file.id
-      }
-    end
+    params.require(%i[assignment_id])
 
-    render json: file_information
+    render json: { file_information: super(assignment_id: params[:assignment_id]) },
+           status: :ok
   end
 
   def destroy
-    super(AssignmentFile)
+    params.require(%i[file_id])
+
+    super(file_id: params[:file_id])
+
+    render status: :ok
   end
 end

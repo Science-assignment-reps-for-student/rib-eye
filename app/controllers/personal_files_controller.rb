@@ -1,6 +1,8 @@
+require './app/services/personal_file_service'
+
 class PersonalFilesController < ApplicationController
-  include FileScaffold::ControllerMethod
   include FileScaffold::HelperMethod
+  include PersonalFileService
 
   before_action :jwt_required
   before_action :file_input_stream, only: :create
@@ -9,36 +11,49 @@ class PersonalFilesController < ApplicationController
   before_action :current_admin, only: %i[show status_for_admin]
 
   def show
-    super { PersonalFile.find_by_id(params[:file_id]) }
+    params.require(%i[file_id])
+
+    file = PersonalFile.find_by_id(params[:file_id])
+
+    send_file(file.path,
+              filename: file.file_name)
   end
 
   def status_for_admin
-    params.require(:student_id)
+    params.require(%i[student_id assignment_id])
 
-    student = Student.find_by_id(params[:student_id])
-    return render status: :not_found unless student
-
-    index do
-      PersonalFile.where(student: student,
-                         assignment: @assignment)
-    end
+    render json: { file_information: index(model: PersonalFile,
+                                           student_id: params[:student_id],
+                                           assignment_id: params[:assignment_id]) },
+           status: :ok
   end
 
   def status_for_student
-    index do
-      PersonalFile.where(student: @student,
-                         assignment: @assignment)
-    end
+    params.require(%i[assignment_id])
+
+    render json: { file_information: index(model: PersonalFile,
+                                           student_id: @student.id,
+                                           assignment_id: params[:assignment_id]) },
+           status: :ok
   end
 
   def create
-    super(PersonalFile,
-          student: @student,
-          assignment: @assignment,
+    params.require(%i[assignment_id])
+
+    super(model: PersonalFile,
+          files: @files,
+          student_id: @payload['sub'],
+          assignment_id: params[:assignment_id],
           created_at: Time.zone.now)
+
+    render status: :created
   end
 
   def destroy
-    super(PersonalFile)
+    params.require(%i[file_id])
+
+    super(model: PersonalFile, file_id: params[:file_id])
+
+    render status: :ok
   end
 end
