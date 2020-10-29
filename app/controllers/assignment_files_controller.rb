@@ -14,7 +14,7 @@ class AssignmentFilesController < ApplicationController
   def index
     params.require(%i[assignment_id])
 
-    render json: { file_information: super(assignment_id: params[:assignment_id]) },
+    render json: super(assignment_id: params[:assignment_id]),
            status: :ok
   end
 
