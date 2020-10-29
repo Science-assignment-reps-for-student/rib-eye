@@ -7,8 +7,10 @@ class ExcelFilesController < ApplicationController
   before_action :current_assignment
 
   def show
-    params.permit(%i[file_id])
+    params.require(%i[file_id])
+
     file = ExcelFile.find_by_id(params[:file_id])
+
     send_file(file.path,
               filename: file.file_name)
   end
