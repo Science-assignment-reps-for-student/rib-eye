@@ -1,15 +1,24 @@
+require './app/services/excel_file_service'
+
 class ExcelFilesController < ApplicationController
-  include FileScaffold::ControllerMethod
+  include ExcelFileService
 
   before_action :jwt_required
   before_action :current_assignment
 
   def show
-    super { @assignment.excel_file }
+    params.require(%i[file_id])
+
+    file = ExcelFile.find_by_id(params[:file_id])
+
+    send_file(file.path,
+              filename: file.file_name)
   end
 
   def update
-    @assignment.generate_excel_file
+    params.require(%i[assignment_id])
+
+    super(assignment_id: params[:assignment_id])
 
     render status: :ok
   end

@@ -1,20 +1,18 @@
-module FileHelper
-  extend ActiveSupport::Concern
+class FileExtension < ApplicationRecord
+  self.abstract_class = true
 
-  module FileGenerator
-    def create_with_file!(files, is_initial_submission, **options)
-      if files.length == 1 && is_initial_submission
-        create!(files[0], **options).late?
-      else
-        files.map do |file|
-          create!(file, **options, file_name: File.basename(file))
-        end.each(&:late?)
-      end
+  def self.create_with_file!(files, is_initial_submission, **options)
+    if files.length == 1 && is_initial_submission
+      create!(files[0], **options).late?
+    else
+      files.map do |file|
+        create!(file, **options, file_name: File.basename(file))
+      end.each(&:late?)
     end
+  end
 
-    def create!(file, **options)
-      super(options).store_file(file)
-    end
+  def self.create!(file, **options)
+    super(options).store_file(file)
   end
 
   def store_file(file)

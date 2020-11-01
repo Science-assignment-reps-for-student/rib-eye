@@ -1,7 +1,4 @@
-class AssignmentFile < ApplicationRecord
-  include FileHelper
-  extend FileHelper::FileGenerator
-
+class AssignmentFile < FileExtension
   belongs_to :assignment
 
   def stored_dir

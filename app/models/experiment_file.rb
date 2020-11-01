@@ -1,7 +1,4 @@
-class ExperimentFile < ApplicationRecord
-  include FileHelper
-  extend FileHelper::FileGenerator
-
+class ExperimentFile < FileExtension
   belongs_to :assignment
   belongs_to :student
 
