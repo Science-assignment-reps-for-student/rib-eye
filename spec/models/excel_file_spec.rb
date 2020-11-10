@@ -1,4 +1,5 @@
 require 'rails_helper'
+require './app/utils/excel_util'
 
 RSpec.describe ExcelFile, type: :model do
   describe 'relationship verification' do
@@ -12,7 +13,7 @@ RSpec.describe ExcelFile, type: :model do
     it 'personal assignment excel file' do
       assignment = create(:assignment)
       create(:student)
-      assignment.generate_excel_file
+      ExcelUtil.new(assignment: assignment).generate_excel_file
     end
 
     it 'team assignment excel file' do
@@ -30,7 +31,7 @@ RSpec.describe ExcelFile, type: :model do
                                  student_id: student.id,
                                  target_id: target_student.id)
 
-      assignment.generate_excel_file
+      ExcelUtil.new(assignment: assignment).generate_excel_file
     end
   end
 end

@@ -1,4 +1,5 @@
 require 'rails_helper'
+require './app/utils/zip_util'
 
 RSpec.describe Assignment, type: :model do
   before(:all) do
@@ -53,7 +54,7 @@ RSpec.describe Assignment, type: :model do
     it 'file compress' do
       FileUtils.mkdir_p(@assignment.stored_dir + '/1')
       FileUtils.touch(@assignment.stored_dir + '/1/test.txt')
-      @assignment.generate_compressed_file
+      ZipUtil.new(assignment: @assignment).generate_compressed_file
       FileUtils.rm_rf(File.dirname(@assignment.stored_dir))
     end
   end
