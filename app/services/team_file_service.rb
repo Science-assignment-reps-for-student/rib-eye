@@ -12,7 +12,7 @@ module TeamFileService
     team ||= Student.find_by_email(student_email)&.team(assignment_id)
     assignment = Assignment.find_by_id(assignment_id)
 
-    files = TeamFile.where(team_id: team.id, assignment_id: assignment.id)
+    files = TeamFile.where(team: team, assignment: assignment)
     {
       file_information: files.map do |file|
         {
