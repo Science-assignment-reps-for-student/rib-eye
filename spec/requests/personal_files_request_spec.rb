@@ -38,7 +38,7 @@ RSpec.describe 'PersonalFiles', type: :request do
     it 'Not Found Assignment' do
       request('get',
               @url_personal_files + "/#{@assignment.id + 1}",
-              false,
+              { student_id: @student.id },
               true)
       expect(response.status).to equal(404)
     end
