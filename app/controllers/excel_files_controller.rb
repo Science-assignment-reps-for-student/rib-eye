@@ -4,15 +4,11 @@ class ExcelFilesController < ApplicationController
   include ExcelFileService
 
   before_action :jwt_required
-  before_action :current_assignment
 
   def show
-    params.require(%i[file_id])
+    params.require(%i[assignment_id])
 
-    file = ExcelFile.find_by_id(params[:file_id])
-
-    send_file(file.path,
-              filename: file.file_name)
+    super(assignment_id: params[:assignment_id])
   end
 
   def update
