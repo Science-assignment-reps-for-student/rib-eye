@@ -1,6 +1,10 @@
 require 'jwt_base'
 
 class ApplicationController < ActionController::API
+  include Exceptions
+
+  rescue_from 'NotFoundException::NotFound' do |e| not_found(e) end
+
   @@jwt_base = JWTBase.new(ENV['SECRET_KEY_BASE'], 1.days, 2.weeks)
 
   def jwt_required
@@ -13,11 +17,9 @@ class ApplicationController < ActionController::API
   end
 
   def token
-    return false unless request.authorization
+    return nil unless request.authorization
 
     authorization = request.authorization.split(' ')
-    if authorization[0] == 'Bearer'
-      authorization[1]
-    end
+    authorization[1] if authorization[0] == 'Bearer'
   end
 end

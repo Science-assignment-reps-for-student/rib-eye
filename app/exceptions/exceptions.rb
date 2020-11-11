@@ -1,4 +1,10 @@
+# frozen_string_literal: true
+
+Dir.glob(File.expand_path('./app/exceptions/*', __dir__)).sort.each { |f| require f }
+
 module Exceptions
+  include NotFoundException
+
   def self.except(exception, params)
     error = exception.new(params)
 

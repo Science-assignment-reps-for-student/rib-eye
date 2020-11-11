@@ -1,8 +1,15 @@
 # frozen_string_literal: true
 
+require './app/exceptions/exceptions'
+
 module PersonalFileService
+  include Exceptions
+
   def show(model:, file_id:)
     file = model.find_by_id(file_id)
+
+    Exceptions.except(NotFoundException::NotFound, file: file)
+
     send_file(file.path,
               filename: file.file_name)
   end
@@ -10,6 +17,8 @@ module PersonalFileService
   def index(model:, student_email: nil, student_id: nil, assignment_id:)
     student = Student.find_by_email(student_email) || Student.find_by_id(student_id)
     assignment = Assignment.find_by_id(assignment_id)
+
+    Exceptions.except(NotFoundException::NotFound, student: student, assignment: assignment)
 
     files = model.where(student: student, assignment: assignment)
     {
@@ -26,6 +35,8 @@ module PersonalFileService
     student = Student.find_by_email(options[:student_email])
     assignment = Assignment.find_by_id(options[:assignment_id])
 
+    Exceptions.except(NotFoundException::NotFound, student: student, assignment: assignment)
+
     options.delete(:student_email)
     options[:student_id] = student.id
 
@@ -39,6 +50,9 @@ module PersonalFileService
 
   def destroy(model:, file_id:)
     existing_file = model.find_by_id(file_id)
+
+    Exceptions.except(NotFoundException::NotFound, file: existing_file)
+
     existing_file.destroy!
   end
 end

@@ -2,21 +2,32 @@
 
 require './app/utils/zip_util'
 
+require './app/exceptions/exceptions'
+
 module AssignmentService
   def show(assignment_id:)
     assignment = Assignment.find_by_id(assignment_id)
+
+    Exceptions.except(NotFoundException::NotFound, assignment: assignment)
+
     ZipUtil.new(assignment: assignment).generate_compressed_file
+
     send_file(assignment.compressed_file_path,
               filename: File.basename(assignment.compressed_file_name))
   end
 
   def index(assignment_id:)
     assignment = Assignment.find_by_id(assignment_id)
+
+    Exceptions.except(NotFoundException::NotFound, assignment: assignment)
+
     { compressed_file_name: assignment.compressed_file_name }
   end
 
   def create(files:, **params)
     assignment = Assignment.create!(params)
+
+    Exceptions.except(NotFoundException::NotFound, assignment: assignment)
 
     return nil if files.empty?
 
@@ -25,6 +36,9 @@ module AssignmentService
 
   def update(assignment_id:, files:, **params)
     assignment = Assignment.find_by_id(assignment_id)
+
+    Exceptions.except(NotFoundException::NotFound, assignment: assignment)
+
     assignment.update!(title: params[:title],
                        description: params[:description],
                        type: params[:type],
@@ -41,6 +55,9 @@ module AssignmentService
 
   def destroy(assignment_id:)
     assignment = Assignment.find_by_id(assignment_id)
+
+    Exceptions.except(NotFoundException::NotFound, assignment: assignment)
+
     assignment.assignment_files.each(&:destroy!)
     assignment.destroy!
   end

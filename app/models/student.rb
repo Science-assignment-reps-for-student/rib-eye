@@ -9,7 +9,11 @@ class Student < ApplicationRecord
   end
 
   def team(assignment_id)
-    Assignment.find_by_id(assignment_id).teams.find do |team|
+    assignment = Assignment.find_by_id(assignment_id)
+
+    return nil unless assignment
+
+    assignment.teams.find do |team|
       team.students.find { |student| student.id == id }
     end
   end
