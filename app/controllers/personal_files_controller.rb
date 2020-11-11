@@ -4,36 +4,31 @@ class PersonalFilesController < ApplicationController
   include FileScaffold::HelperMethod
   include PersonalFileService
 
-  before_action :jwt_required
-  before_action :file_input_stream, only: :create
-  before_action :current_assignment, only: %i[create status_for_admin status_for_student]
-  before_action :current_student, only: %i[create destroy status_for_student]
-  before_action :current_admin, only: %i[show status_for_admin]
+  before_action :admin?, only: %i[show status_for_admin]
+  before_action :student?, except: %i[show status_for_admin]
+  before_action :file_input_stream, only: %i[create]
 
   def show
     params.require(%i[file_id])
 
-    file = PersonalFile.find_by_id(params[:file_id])
-
-    send_file(file.path,
-              filename: file.file_name)
+    super(model: PersonalFile, file_id: params[:file_id])
   end
 
   def status_for_admin
     params.require(%i[student_id assignment_id])
 
-    render json: { file_information: index(model: PersonalFile,
-                                           student_id: params[:student_id],
-                                           assignment_id: params[:assignment_id]) },
+    render json: index(model: PersonalFile,
+                       student_id: params[:student_id],
+                       assignment_id: params[:assignment_id]),
            status: :ok
   end
 
   def status_for_student
     params.require(%i[assignment_id])
 
-    render json: { file_information: index(model: PersonalFile,
-                                           student_id: @student.id,
-                                           assignment_id: params[:assignment_id]) },
+    render json: index(model: PersonalFile,
+                       student_email: @payload['sub'],
+                       assignment_id: params[:assignment_id]),
            status: :ok
   end
 
@@ -42,7 +37,7 @@ class PersonalFilesController < ApplicationController
 
     super(model: PersonalFile,
           files: @files,
-          student_id: @payload['sub'],
+          student_email: @payload['sub'],
           assignment_id: params[:assignment_id],
           created_at: Time.zone.now)
 

@@ -1,44 +1,54 @@
-class ExperimentFilesController < ApplicationController
-  include FileScaffold::ControllerMethod
-  include FileScaffold::HelperMethod
+require './app/services/personal_file_service'
 
-  before_action :jwt_required
-  before_action :file_input_stream, only: :create
-  before_action :current_assignment, only: %i[create status_for_admin status_for_student]
-  before_action :current_student, only: %i[create destroy status_for_student]
-  before_action :current_admin, only: %i[show status_for_admin]
+class ExperimentFilesController < ApplicationController
+  include FileScaffold::HelperMethod
+  include PersonalFileService
+
+  before_action :admin?, only: %i[show status_for_admin]
+  before_action :student?, except: %i[show status_for_admin]
+  before_action :file_input_stream, only: %i[create]
 
   def show
-    super { ExperimentFile.find_by_id(params[:file_id]) }
+    params.require(%i[file_id])
+
+    super(model: ExperimentFile, file_id: params[:file_id])
   end
 
   def status_for_admin
-    params.require(:student_id)
+    params.require(%i[student_id assignment_id])
 
-    student = Student.find_by_id(params[:student_id])
-    return render status: :not_found unless student
-
-    index do
-      ExperimentFile.where(student: student,
-                           assignment: @assignment)
-    end
+    render json: index(model: ExperimentFile,
+                       student_id: params[:student_id],
+                       assignment_id: params[:assignment_id]),
+           status: :ok
   end
 
   def status_for_student
-    index do
-      ExperimentFile.where(student: @student,
-                           assignment: @assignment)
-    end
+    params.require(%i[assignment_id])
+
+    render json: index(model: ExperimentFile,
+                       student_email: @payload['sub'],
+                       assignment_id: params[:assignment_id]),
+           status: :ok
   end
 
   def create
-    super(ExperimentFile,
-          student: @student,
-          assignment: @assignment,
+    params.require(%i[assignment_id])
+
+    super(model: ExperimentFile,
+          files: @files,
+          student_email: @payload['sub'],
+          assignment_id: params[:assignment_id],
           created_at: Time.zone.now)
+
+    render status: :created
   end
 
   def destroy
-    super(ExperimentFile)
+    params.require(%i[file_id])
+
+    super(model: ExperimentFile, file_id: params[:file_id])
+
+    render status: :ok
   end
 end

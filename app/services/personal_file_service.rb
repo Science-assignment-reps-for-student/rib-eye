@@ -1,22 +1,47 @@
+# frozen_string_literal: true
+
+require './app/exceptions/exceptions'
+
 module PersonalFileService
-  def index(model:, student_id:, assignment_id:)
-    files = model.where(student_id: student_id, assignment_id: assignment_id)
-    files.map do |file|
-      {
-        file_name: file.file_name,
-        file_id: file.id
-      }
-    end
+  include Exceptions
+
+  def show(model:, file_id:)
+    file = model.find_by_id(file_id)
+
+    Exceptions.except(NotFoundException::NotFound, file: file)
+
+    send_file(file.path,
+              filename: file.file_name)
+  end
+
+  def index(model:, student_email: nil, student_id: nil, assignment_id:)
+    student = Student.find_by_email(student_email) || Student.find_by_id(student_id)
+    assignment = Assignment.find_by_id(assignment_id)
+
+    Exceptions.except(NotFoundException::NotFound, student: student, assignment: assignment)
+
+    files = model.where(student: student, assignment: assignment)
+    {
+      file_information: files.map do |file|
+        {
+          file_name: file.file_name,
+          file_id: file.id
+        }
+      end
+    }
   end
 
   def create(model:, files:, **options)
-    student = Student.find_by_id(options[:student_id])
+    student = Student.find_by_email(options[:student_email])
     assignment = Assignment.find_by_id(options[:assignment_id])
 
+    Exceptions.except(NotFoundException::NotFound, student: student, assignment: assignment)
+
+    options.delete(:student_email)
+    options[:student_id] = student.id
+
     existing_files = model.where(student: student, assignment: assignment)
-    conflicting_files = files.map do |file|
-      existing_files.find_by_file_name(File.basename(file)).&file_name
-    end.compact
+    conflicting_files = (files & existing_files).map(&:file_name)
 
     model.create_with_file!(files, existing_files.blank?, **options)
 
@@ -25,6 +50,9 @@ module PersonalFileService
 
   def destroy(model:, file_id:)
     existing_file = model.find_by_id(file_id)
+
+    Exceptions.except(NotFoundException::NotFound, file: existing_file)
+
     existing_file.destroy!
   end
 end

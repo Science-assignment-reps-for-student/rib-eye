@@ -3,17 +3,12 @@ require './app/services/assignment_file_service'
 class AssignmentFilesController < ApplicationController
   include AssignmentFileService
 
-  before_action :jwt_required
-  before_action :current_assignment, only: :index
-  before_action :current_admin, only: :destroy
+  before_action :admin?, only: %i[destroy]
 
   def show
     params.require(%i[file_id])
 
-    file = AssignmentFile.find_by_id(params[:file_id])
-
-    send_file(file.path,
-              filename: file.file_name)
+    super(file_id: params[:file_id])
   end
 
   def index

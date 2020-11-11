@@ -1,6 +1,22 @@
+# frozen_string_literal: true
+
+require './app/exceptions/exceptions'
+
 module AssignmentFileService
+  def show(file_id:)
+    file = AssignmentFile.find_by_id(file_id)
+
+    Exceptions.except(NotFoundException::NotFound, file: file)
+
+    send_file(file.path,
+              filename: file.file_name)
+  end
+
   def index(assignment_id:)
     assignment = Assignment.find_by_id(assignment_id)
+
+    Exceptions.except(NotFoundException::NotFound, assignment: assignment)
+
     assignment.assignment_files.map do |file|
       {
         file_name: file.file_name,
@@ -11,6 +27,9 @@ module AssignmentFileService
 
   def destroy(file_id:)
     existing_file = AssignmentFile.find_by_id(file_id)
+
+    Exceptions.except(NotFoundException::NotFound, file: existing_file)
+
     existing_file.destroy!
   end
 end

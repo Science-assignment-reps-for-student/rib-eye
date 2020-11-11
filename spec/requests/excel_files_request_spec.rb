@@ -14,7 +14,7 @@ RSpec.describe 'ExcelFiles', type: :request do
 
   describe 'GET#show' do
     it 'OK' do
-      @assignment.generate_excel_file
+      ExcelUtil.new(assignment: @assignment).generate_excel_file
 
       request('get', "#{@url_excel_file}/1", false, true)
       expect(response.status).to eql(200)

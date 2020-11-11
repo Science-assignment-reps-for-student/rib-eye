@@ -38,7 +38,7 @@ RSpec.describe 'TeamFiles', type: :request do
     it 'Not Found Assignment' do
       request('get',
               @url_team_files + "/#{@assignment.id + 1}",
-              false,
+              { team_id: @team.id },
               true)
       expect(response.status).to equal(404)
     end
