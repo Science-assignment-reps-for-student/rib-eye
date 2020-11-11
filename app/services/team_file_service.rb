@@ -1,16 +1,22 @@
 # frozen_string_literal: true
 
+require './app/exceptions/exceptions'
+
 module TeamFileService
   def show(file_id:)
     file = TeamFile.find_by_id(file_id)
+
+    Exceptions.except(NotFoundException::NotFound, file: file)
+
     send_file(file.path,
               filename: file.file_name)
   end
 
   def index(team_id: nil, student_email: nil, assignment_id:)
-    team = Team.find_by_id(team_id)
-    team ||= Student.find_by_email(student_email)&.team(assignment_id)
+    team = Team.find_by_id(team_id) || Student.find_by_email(student_email)&.team(assignment_id)
     assignment = Assignment.find_by_id(assignment_id)
+
+    Exceptions.except(NotFoundException::NotFound, team: team, assignment: assignment)
 
     files = TeamFile.where(team: team, assignment: assignment)
     {
@@ -28,6 +34,8 @@ module TeamFileService
                   &.team(options[:assignment_id])
     assignment = Assignment.find_by_id(options[:assignment_id])
 
+    Exceptions.except(NotFoundException::NotFound, team: team, assignment: assignment)
+
     options.delete(:student_email)
     options[:team_id] = team.id
 
@@ -43,6 +51,9 @@ module TeamFileService
 
   def destroy(file_id:)
     existing_file = TeamFile.find_by_id(file_id)
+
+    Exceptions.except(NotFoundException::NotFound, file: existing_file)
+
     existing_file.destroy!
   end
 end
