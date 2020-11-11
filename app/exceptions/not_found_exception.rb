@@ -12,6 +12,5 @@ module NotFoundException
   def not_found(error)
     render json: { error_message: error.message },
            status: :not_found
-    raise error
   end
 end
