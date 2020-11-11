@@ -3,7 +3,7 @@ require './app/services/assignment_file_service'
 class AssignmentFilesController < ApplicationController
   include AssignmentFileService
 
-  before_action :jwt_required
+  before_action :admin?, only: %i[destroy]
 
   def show
     params.require(%i[file_id])
