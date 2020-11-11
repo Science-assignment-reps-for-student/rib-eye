@@ -4,7 +4,7 @@ class AssignmentsController < ApplicationController
   include FileScaffold::HelperMethod
   include AssignmentService
 
-  before_action :jwt_required
+  before_action :admin?
   before_action :file_input_stream, only: %i[create update]
 
   def show
