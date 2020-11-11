@@ -4,8 +4,9 @@ class TeamFilesController < ApplicationController
   include FileScaffold::HelperMethod
   include TeamFileService
 
-  before_action :jwt_required
-  before_action :file_input_stream, only: :create
+  before_action :admin?, only: %i[show status_for_admin]
+  before_action :student?, except: %i[show status_for_admin]
+  before_action :file_input_stream, only: %i[create]
 
   def show
     params.require(%i[file_id])
