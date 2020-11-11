@@ -1,4 +1,6 @@
 module Exceptions
+  include NotFoundException
+
   def self.except(exception, params)
     error = exception.new(params)
 
