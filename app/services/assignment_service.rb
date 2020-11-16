@@ -2,13 +2,11 @@
 
 require './app/utils/zip_util'
 
-require './app/exceptions/exceptions'
-
 module AssignmentService
   def show(assignment_id:)
     assignment = Assignment.find_by_id(assignment_id)
 
-    Exceptions.except(NotFoundException::NotFound, assignment: assignment)
+    NotFoundException::NotFound.except(assignment: assignment)
 
     ZipUtil.new(assignment: assignment).generate_compressed_file
 
@@ -19,25 +17,29 @@ module AssignmentService
   def index(assignment_id:)
     assignment = Assignment.find_by_id(assignment_id)
 
-    Exceptions.except(NotFoundException::NotFound, assignment: assignment)
+    NotFoundException::NotFound.except(assignment: assignment)
 
     { compressed_file_name: assignment.compressed_file_name }
   end
 
   def create(files:, **params)
+    BadRequestException::BadAssignmentName.except(params[:title])
+    BadRequestException::BadAssignmentType.except(params[:type])
+
     assignment = Assignment.create!(params)
 
-    Exceptions.except(NotFoundException::NotFound, assignment: assignment)
-
-    return nil if files.empty?
+    return assignment if files.nil?
 
     files.each { |file| AssignmentFile.create!(file, assignment: assignment) }
   end
 
   def update(assignment_id:, files:, **params)
+    BadRequestException::BadAssignmentName.except(params[:title])
+    BadRequestException::BadAssignmentType.except(params[:type])
+
     assignment = Assignment.find_by_id(assignment_id)
 
-    Exceptions.except(NotFoundException::NotFound, assignment: assignment)
+    NotFoundException::NotFound.except(assignment: assignment)
 
     assignment.update!(title: params[:title],
                        description: params[:description],
@@ -47,7 +49,7 @@ module AssignmentService
                        deadline_3: params[:deadline_3],
                        deadline_4: params[:deadline_4])
 
-    return nil if files.empty?
+    return nil if files.blank?
 
     assignment.assignment_files.each(&:destroy!)
     files.each { |file| AssignmentFile.create!(file, assignment: assignment.reload) }
@@ -56,7 +58,7 @@ module AssignmentService
   def destroy(assignment_id:)
     assignment = Assignment.find_by_id(assignment_id)
 
-    Exceptions.except(NotFoundException::NotFound, assignment: assignment)
+    NotFoundException::NotFound.except(assignment: assignment)
 
     assignment.assignment_files.each(&:destroy!)
     assignment.destroy!

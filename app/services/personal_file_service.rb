@@ -1,14 +1,12 @@
 # frozen_string_literal: true
 
-require './app/exceptions/exceptions'
-
 module PersonalFileService
-  include Exceptions
+  include Response
 
   def show(model:, file_id:)
     file = model.find_by_id(file_id)
 
-    Exceptions.except(NotFoundException::NotFound, file: file)
+    NotFoundException::NotFound.except(file: file)
 
     send_file(file.path,
               filename: file.file_name)
@@ -18,7 +16,7 @@ module PersonalFileService
     student = Student.find_by_email(student_email) || Student.find_by_id(student_id)
     assignment = Assignment.find_by_id(assignment_id)
 
-    Exceptions.except(NotFoundException::NotFound, student: student, assignment: assignment)
+    NotFoundException::NotFound.except(student: student, assignment: assignment)
 
     files = model.where(student: student, assignment: assignment)
     {
@@ -35,13 +33,14 @@ module PersonalFileService
     student = Student.find_by_email(options[:student_email])
     assignment = Assignment.find_by_id(options[:assignment_id])
 
-    Exceptions.except(NotFoundException::NotFound, student: student, assignment: assignment)
+    NotFoundException::NotFound.except(student: student, assignment: assignment)
 
     options.delete(:student_email)
     options[:student_id] = student.id
 
     existing_files = model.where(student: student, assignment: assignment)
-    conflicting_files = (files & existing_files).map(&:file_name)
+
+    ConflictException::Conflict.except(files: files, existing_files: existing_files)
 
     model.create_with_file!(files, existing_files.blank?, **options)
 
@@ -51,7 +50,7 @@ module PersonalFileService
   def destroy(model:, file_id:)
     existing_file = model.find_by_id(file_id)
 
-    Exceptions.except(NotFoundException::NotFound, file: existing_file)
+    NotFoundException::NotFound.except(file: existing_file)
 
     existing_file.destroy!
   end

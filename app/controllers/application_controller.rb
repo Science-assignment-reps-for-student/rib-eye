@@ -1,13 +1,31 @@
 require 'jwt_base'
 
-class ApplicationController < ActionController::API
-  include Exceptions
+require './app/exceptions/response'
+require './app/services/file_service'
 
-  rescue_from 'UnauthorizedException::Unauthorized' do |e| render_error(e) end
-  rescue_from 'ForbiddenException::Forbidden' do |e| render_error(e) end
-  rescue_from 'NotFoundException::NotFound' do |e| render_error(e) end
+class ApplicationController < ActionController::API
+  include Response
+  include FileService
+
+  rescue_from 'UnauthorizedException::Unauthorized',
+              'ForbiddenException::Forbidden',
+              'NotFoundException::NotFound',
+              'UnsupportedMediaTypeException::UnsupportedMediaType',
+              'BadRequestException::BadAssignmentName',
+              'BadRequestException::BadAssignmentType',
+              'BadRequestException::BadFileType' do |e|
+    render_error(e)
+  end
 
   before_action do
-    @payload = Exceptions.except(ForbiddenException::Forbidden, request.authorization).payload
+    @payload = ForbiddenException::Forbidden.except(request.authorization).payload
+  end
+
+  protected
+
+  def file_filter
+    return nil if params[:file].nil?
+
+    super(params[:file])
   end
 end

@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
-require './app/exceptions/exceptions'
-
 module TeamFileService
   def show(file_id:)
     file = TeamFile.find_by_id(file_id)
 
-    Exceptions.except(NotFoundException::NotFound, file: file)
+    NotFoundException::NotFound.except(file: file)
 
     send_file(file.path,
               filename: file.file_name)
@@ -16,7 +14,7 @@ module TeamFileService
     team = Team.find_by_id(team_id) || Student.find_by_email(student_email)&.team(assignment_id)
     assignment = Assignment.find_by_id(assignment_id)
 
-    Exceptions.except(NotFoundException::NotFound, team: team, assignment: assignment)
+    NotFoundException::NotFound.except(team: team, assignment: assignment)
 
     files = TeamFile.where(team: team, assignment: assignment)
     {
@@ -34,13 +32,14 @@ module TeamFileService
                   &.team(options[:assignment_id])
     assignment = Assignment.find_by_id(options[:assignment_id])
 
-    Exceptions.except(NotFoundException::NotFound, team: team, assignment: assignment)
+    NotFoundException::NotFound.except(team: team, assignment: assignment)
 
     options.delete(:student_email)
     options[:team_id] = team.id
 
     existing_files = TeamFile.where(team: team, assignment: assignment)
-    conflicting_files = (files & existing_files).map(&:file_name)
+
+    ConflictException::Conflict.except(files: files, existing_files: existing_files)
 
     TeamFile.create_with_file!(files, existing_files.blank?, **options)
 
@@ -52,7 +51,7 @@ module TeamFileService
   def destroy(file_id:)
     existing_file = TeamFile.find_by_id(file_id)
 
-    Exceptions.except(NotFoundException::NotFound, file: existing_file)
+    NotFoundException::NotFound.except(file: existing_file)
 
     existing_file.destroy!
   end

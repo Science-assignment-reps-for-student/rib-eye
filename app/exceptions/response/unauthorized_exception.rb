@@ -1,20 +1,23 @@
 # frozen_string_literal: true
 
+require './app/exceptions/exception_core'
+
 module UnauthorizedException
-  class Unauthorized < StandardError
+  class Unauthorized < ExceptionCore
     attr_reader :should_raise, :status, :jwt
 
     def initialize(authorization)
       @status = :unauthorized
-      @should_raise = false
 
-      authorization = authorization&.split(' ')
-      raise self if authorization.nil?
-
+      authorization = authorization&.split(' ').to_a
       @jwt = authorization[1] if authorization[0] == 'Bearer'
-      @should_raise = true if @jwt.nil?
+      @should_raise = @jwt.nil?
 
       super('Unauthorized : undefined token')
+    end
+
+    def self.except(authorization)
+      super(new(authorization))
     end
   end
 end

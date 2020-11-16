@@ -1,12 +1,12 @@
 require './app/services/team_file_service'
 
 class TeamFilesController < ApplicationController
-  include FileScaffold::HelperMethod
   include TeamFileService
+
+  before_action :file_filter, only: %i[create]
 
   before_action :admin?, only: %i[show status_for_admin]
   before_action :student?, except: %i[show status_for_admin]
-  before_action :file_input_stream, only: %i[create]
 
   def show
     params.require(%i[file_id])

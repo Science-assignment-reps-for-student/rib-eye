@@ -1,19 +1,14 @@
 # frozen_string_literal: true
 
-Dir.glob(File.expand_path('./app/exceptions/*', __dir__)).sort.each { |f| require f }
+Dir.glob(File.expand_path('response/*', __dir__)).sort.each { |f| require_relative f }
 
-module Exceptions
+module Response
+  include BadRequestException
   include UnauthorizedException
   include ForbiddenException
   include NotFoundException
-
-  def self.except(exception, params)
-    error = exception.new(params)
-
-    raise error if error.should_raise
-
-    error
-  end
+  include ConflictException
+  include UnsupportedMediaTypeException
 
   def render_error(error)
     render json: { error_message: error.message },

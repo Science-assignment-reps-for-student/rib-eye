@@ -36,5 +36,6 @@ module RibEye
     config.api_only = true
     config.time_zone = 'Seoul'
     config.active_record.default_timezone = :local
+    config.autoloader = :classic
   end
 end

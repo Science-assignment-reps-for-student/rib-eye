@@ -86,7 +86,7 @@ RSpec.describe 'TeamFiles', type: :request do
     it 'Unsupported Media Type' do
       request('post',
               @url_team_file + "/#{@assignment.id + 1}",
-              { file: FileUtils.touch(ApplicationRecord.stored_dir + '/test.unable') },
+              { file: [form_data(FileUtils.touch(ApplicationRecord.stored_dir + '/test.unable')[0])] },
               @student_token)
       expect(response.status).to equal(415)
     end
