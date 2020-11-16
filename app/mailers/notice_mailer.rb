@@ -6,7 +6,7 @@ class NoticeMailer < ApplicationMailer
     @subject = "[제출 알림][#{@type}]#{@title}"
 
     if assignment.type == 'TEAM'
-      @is_late = if assignment.files.find_by_leader_id(target.id).is_late
+      @is_late = if assignment.files.last.is_late
                    '지각'
                  else
                    '제출'
@@ -22,7 +22,7 @@ class NoticeMailer < ApplicationMailer
              end
     end
 
-    @is_late = if assignment.files.find_by_student_id(target.id).is_late
+    @is_late = if assignment.files.last.is_late
                  '지각'
                else
                  '제출'
