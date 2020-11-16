@@ -1,4 +1,4 @@
-:pidfile: /rib-eye/tmp/pids/sidekiq.pid
+:pidfile: ./sidekiq.pid
 :daemon: true
 
 development:
