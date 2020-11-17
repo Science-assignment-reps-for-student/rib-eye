@@ -3,7 +3,7 @@
 require './app/exceptions/exception_core'
 
 module UnsupportedMediaTypeException
-  EXTNAME_WHITELIST = %w[.hwp .jpg .png .jpeg .pptx .word .pdf .zip .mp4 .avi].freeze
+  EXTNAME_WHITELIST = %w[.hwp .jpg .png .jpeg .pptx .word .pdf .zip .mp4 .avi .mov].freeze
 
   class UnsupportedMediaType < ExceptionCore
     attr_reader :should_raise, :status
