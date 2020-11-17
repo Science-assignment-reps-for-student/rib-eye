@@ -11,9 +11,7 @@ class NoticeMailer < ApplicationMailer
                end
 
     if assignment.type == 'TEAM'
-      return Team.find_by_leader_id_and_assignment_id(target.id,
-                                                      assignment.id)
-                 .students.each do |student|
+      return target.team(assignment.id).students do |student|
                mail(from: 'notify@scarfs.hs.kr',
                     to: student.email,
                     subject: @subject,
