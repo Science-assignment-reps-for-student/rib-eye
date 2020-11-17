@@ -9,9 +9,4 @@ module Response
   include NotFoundException
   include ConflictException
   include UnsupportedMediaTypeException
-
-  def render_error(error)
-    render json: { error_message: error.message },
-           status: error.status
-  end
 end

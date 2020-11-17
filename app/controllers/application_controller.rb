@@ -1,5 +1,3 @@
-require 'jwt_base'
-
 require './app/exceptions/response'
 require './app/services/file_service'
 
@@ -27,5 +25,12 @@ class ApplicationController < ActionController::API
     return nil if params[:file].nil?
 
     super(params[:file])
+  end
+
+  private
+
+  def render_error(error)
+    render json: { error_message: error.message },
+           status: error.status
   end
 end
