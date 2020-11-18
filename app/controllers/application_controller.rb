@@ -27,6 +27,10 @@ class ApplicationController < ActionController::API
     super(params[:file])
   end
 
+  def buffer_size
+    BUFFER_SIZE
+  end
+
   private
 
   def render_error(error)

@@ -11,7 +11,8 @@ module AssignmentService
     ZipUtil.new(assignment: assignment).generate_compressed_file
 
     send_file(assignment.compressed_file_path,
-              filename: File.basename(assignment.compressed_file_name))
+              filename: File.basename(assignment.compressed_file_name),
+              buffer_size: buffer_size)
   end
 
   def index(assignment_id:)

@@ -9,7 +9,8 @@ module ExcelFileService
     NotFoundException::NotFound.except(file: file)
 
     send_file(file.path,
-              filename: file.file_name)
+              filename: file.file_name,
+              buffer_size: buffer_size)
   end
 
   def update(assignment_id:)

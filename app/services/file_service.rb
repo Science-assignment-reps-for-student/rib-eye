@@ -1,4 +1,6 @@
 module FileService
+  BUFFER_SIZE = 1_048_576
+
   def file_filter(files)
     UnsupportedMediaTypeException::UnsupportedMediaType.except(files)
 

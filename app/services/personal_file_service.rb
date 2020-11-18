@@ -9,7 +9,8 @@ module PersonalFileService
     NotFoundException::NotFound.except(file: file)
 
     send_file(file.path,
-              filename: file.file_name)
+              filename: file.file_name,
+              buffer_size: buffer_size)
   end
 
   def index(model:, student_email: nil, student_id: nil, assignment_id:)
