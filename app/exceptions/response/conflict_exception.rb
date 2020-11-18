@@ -7,8 +7,8 @@ module ConflictException
     attr_reader :should_raise, :status
 
     def initialize(files:, existing_files:)
-      conflict_files = (files & existing_files)
-      super("Conflict : #{conflict_files.map(&:file_name)}")
+      conflict_files = (files.map { |f| File.basename(f.path) } & existing_files.map(&:file_name))
+      super("Conflict : #{conflict_files}")
     end
 
     def self.except(files:, existing_files:)
