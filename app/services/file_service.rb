@@ -4,7 +4,9 @@ module FileService
 
     @files = files.map do |file|
       File.rename(file, "#{File.dirname(file)}/#{file.original_filename}")
-      File.open("#{File.dirname(file)}/#{file.original_filename}")
+      f = File.open("#{File.dirname(file)}/#{file.original_filename}")
+      f.close
+      f
     end
   end
 end
