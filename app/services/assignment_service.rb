@@ -12,7 +12,8 @@ module AssignmentService
 
     send_file(assignment.compressed_file_path,
               filename: File.basename(assignment.compressed_file_name),
-              buffer_size: buffer_size)
+              buffer_size: buffer_size,
+              stream: 'true')
   end
 
   def index(assignment_id:)

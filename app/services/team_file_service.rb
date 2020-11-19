@@ -8,7 +8,8 @@ module TeamFileService
 
     send_file(file.path,
               filename: file.file_name,
-              buffer_size: buffer_size)
+              buffer_size: buffer_size,
+              stream: 'true')
   end
 
   def index(team_id: nil, student_email: nil, assignment_id:)

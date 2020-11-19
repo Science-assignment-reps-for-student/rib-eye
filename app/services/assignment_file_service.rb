@@ -8,7 +8,8 @@ module AssignmentFileService
 
     send_file(file.path,
               filename: file.file_name,
-              buffer_size: buffer_size)
+              buffer_size: buffer_size,
+              stream: 'true')
   end
 
   def index(assignment_id:)

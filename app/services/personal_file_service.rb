@@ -10,7 +10,8 @@ module PersonalFileService
 
     send_file(file.path,
               filename: file.file_name,
-              buffer_size: buffer_size)
+              buffer_size: buffer_size,
+              stream: 'true')
   end
 
   def index(model:, student_email: nil, student_id: nil, assignment_id:)
