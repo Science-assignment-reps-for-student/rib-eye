@@ -11,7 +11,7 @@ module ExcelFileService
     send_file(file.path,
               filename: file.file_name,
               buffer_size: buffer_size,
-              stream: 'true')
+              stream: true)
   end
 
   def update(assignment_id:)
