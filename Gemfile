@@ -7,7 +7,7 @@ ruby '2.6.5'
 gem 'rails', '~> 6.0.3.2'
 
 # Use WAS to puma
-gem 'puma', '~> 4.3.5'
+gem 'puma', '~> 4.3.8'
 
 # Use mysql as the database for Active Record
 gem 'mysql2', '~> 0.5.3'
