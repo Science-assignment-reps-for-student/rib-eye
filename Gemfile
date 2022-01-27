@@ -21,7 +21,7 @@ gem 'rubyzip', '~> 2.3.0'
 # Use Redis adapter to run queue in production
 gem 'connection_pool', '~> 2.2.3'
 gem 'redis-objects', '~> 1.5.0'
-gem 'sidekiq', '~> 5.0'
+gem 'sidekiq', '~> 6.4'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '~> 1.4.6', require: false
